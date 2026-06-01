@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #1A6B4A;
+  --brand-light: #E8F5EE;
+  --brand-mid: #2E9B6E;
+  --brand-dark: #0f3d28;
+  --accent: #D4840A;
+  --accent-light: #FBF0DC;
+  --surface: #FAF7F2;
+  --surface-2: #F3EDE4;
+  --ink: #1A1A18;
+  --muted: #5C5A54;
+  --line: #E5DFD4;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background-color: var(--surface);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+@layer components {
+  .site-wrap {
+    @apply max-w-[1100px] mx-auto px-5 sm:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-block px-5 py-2.5 text-sm font-semibold bg-brand text-white border border-brand transition-colors hover:bg-brand-dark;
+  }
+
+  .btn-secondary {
+    @apply inline-block px-5 py-2.5 text-sm font-semibold bg-white text-ink border border-line transition-colors hover:border-brand hover:text-brand;
+  }
+
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-muted;
+  }
+}
