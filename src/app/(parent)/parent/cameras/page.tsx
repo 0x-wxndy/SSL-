@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import clsx from "clsx";
 import { ParentPageHeader } from "@/components/parent/ParentPageHeader";
+import CameraOtpGate from "@/components/parent/CameraOtpGate";
 import { cameraZones, type CameraFeed, type CameraZone } from "@/lib/parent-data";
 import { useParentSession } from "@/hooks/useParentSession";
 
 function FeedPreview({ feed, zoneName, large }: { feed: CameraFeed; zoneName: string; large?: boolean }) {
   return (
     <div className={clsx("relative bg-[#1a1a18] overflow-hidden", large ? "aspect-video" : "aspect-video")}>
-      <div className="absolute inset-0 opacity-20"
+      <div
+        className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage: "linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px)",
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px)",
           backgroundSize: "20px 20px",
         }}
       />
@@ -23,10 +26,12 @@ function FeedPreview({ feed, zoneName, large }: { feed: CameraFeed; zoneName: st
         <p className="text-[10px] text-white/40 mt-1 font-mono">{feed.id}</p>
       </div>
       <div className="absolute top-2 left-2 flex gap-2">
-        <span className={clsx(
-          "text-[10px] font-bold px-2 py-0.5 uppercase tracking-wide",
-          feed.online ? "bg-green-600 text-white" : "bg-gray-600 text-white/80"
-        )}>
+        <span
+          className={clsx(
+            "text-[10px] font-bold px-2 py-0.5 uppercase tracking-wide",
+            feed.online ? "bg-green-600 text-white" : "bg-gray-600 text-white/80"
+          )}
+        >
           {feed.online ? "En direct" : "Hors ligne"}
         </span>
       </div>
@@ -41,7 +46,11 @@ function FeedPreview({ feed, zoneName, large }: { feed: CameraFeed; zoneName: st
   );
 }
 
-function SiteMap({ zones, selectedId, onSelect }: {
+function SiteMap({
+  zones,
+  selectedId,
+  onSelect,
+}: {
   zones: CameraZone[];
   selectedId: string | null;
   onSelect: (id: string) => void;
@@ -67,22 +76,26 @@ function SiteMap({ zones, selectedId, onSelect }: {
               }}
               className={clsx(
                 "text-left p-3 border-2 transition-all relative overflow-hidden",
-                active ? "border-brand bg-brand-light ring-2 ring-brand/20" : "border-line bg-surface-2 hover:border-brand/50"
+                active
+                  ? "border-brand-forest bg-brand-light ring-2 ring-brand-forest/20"
+                  : "border-line bg-surface-2 hover:border-brand-forest/50"
               )}
             >
-              <span className="text-[10px] font-bold text-brand uppercase">{zone.floor}</span>
+              <span className="text-[10px] font-bold text-brand-forest uppercase">{zone.floor}</span>
               <p className="text-sm font-semibold text-ink mt-0.5 leading-tight">{zone.name}</p>
-              <p className="text-[11px] text-muted mt-1">{zone.area}</p>
+              <p className="text-[11px] text-ink-muted mt-1">{zone.area}</p>
               <div className="absolute bottom-2 right-2 flex items-center gap-1.5">
-                <span className="text-[10px] text-muted">{onlineCount} cam.</span>
-                <span className={clsx("w-2 h-2 rounded-full", onlineCount > 0 ? "bg-green-500" : "bg-gray-400")} />
+                <span className="text-[10px] text-ink-muted">{onlineCount} cam.</span>
+                <span
+                  className={clsx("w-2 h-2 rounded-full", onlineCount > 0 ? "bg-green-500" : "bg-gray-400")}
+                />
               </div>
             </button>
           );
         })}
       </div>
-      <p className="text-[11px] text-muted mt-3">
-        Les flux vidéo sont chiffrés et accessibles uniquement aux parents connectés.
+      <p className="text-[11px] text-ink-muted mt-3">
+        Les flux vidéo sont chiffrés et accessibles après vérification OTP.
       </p>
     </div>
   );
@@ -90,8 +103,11 @@ function SiteMap({ zones, selectedId, onSelect }: {
 
 export default function ParentCamerasPage() {
   const { user } = useParentSession();
+  const [verified, setVerified] = useState(false);
   const [selectedZoneId, setSelectedZoneId] = useState<string>(cameraZones[0].id);
   const [expandedFeedId, setExpandedFeedId] = useState<string | null>(cameraZones[0].feeds[0].id);
+
+  const handleVerified = useCallback(() => setVerified(true), []);
 
   const selectedZone = cameraZones.find((z) => z.id === selectedZoneId) ?? cameraZones[0];
   const expandedFeed = selectedZone.feeds.find((f) => f.id === expandedFeedId) ?? selectedZone.feeds[0];
@@ -102,6 +118,11 @@ export default function ParentCamerasPage() {
     if (zone?.feeds[0]) setExpandedFeedId(zone.feeds[0].id);
   }
 
+  async function lockAccess() {
+    await fetch("/api/cameras/otp", { method: "DELETE" });
+    setVerified(false);
+  }
+
   const totalOnline = cameraZones.reduce((n, z) => n + z.feeds.filter((f) => f.online).length, 0);
   const totalFeeds = cameraZones.reduce((n, z) => n + z.feeds.length, 0);
 
@@ -110,72 +131,101 @@ export default function ParentCamerasPage() {
       <ParentPageHeader
         user={user}
         title="Surveillance — espaces SSL+++"
-        subtitle={`${totalOnline}/${totalFeeds} caméras actives · accès parent sécurisé`}
+        subtitle={
+          verified
+            ? `${totalOnline}/${totalFeeds} caméras actives · accès OTP validé`
+            : "Accès caméras protégé par code SMS"
+        }
       />
 
-      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-5 mb-6">
-        <SiteMap zones={cameraZones} selectedId={selectedZoneId} onSelect={selectZone} />
-
-        <div className="bg-white border border-line">
-          <FeedPreview feed={expandedFeed} zoneName={selectedZone.name} large />
-          <div className="p-4 border-t border-line">
-            <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-              <div>
-                <h2 className="font-display text-lg text-ink">{selectedZone.name}</h2>
-                <p className="text-xs text-muted">{selectedZone.floor} · {selectedZone.area}</p>
-              </div>
-              <span className="text-xs font-semibold px-2 py-1 bg-brand-light text-brand">
-                {selectedZone.childrenPresent} enfants
-              </span>
-            </div>
-            <p className="text-sm text-muted leading-relaxed">{selectedZone.description}</p>
-            <p className="text-xs text-muted mt-2">
-              Plage active : <strong className="text-ink">{selectedZone.activeHours}</strong>
-            </p>
+      {!verified ? (
+        <CameraOtpGate onVerified={handleVerified} />
+      ) : (
+        <>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-5 px-4 py-3 bg-brand-light border border-brand-forest/20 text-sm">
+            <span className="text-ink">
+              <strong className="text-brand-forest">Accès caméras actif</strong> — session sécurisée (30 min)
+            </span>
+            <button
+              type="button"
+              onClick={lockAccess}
+              className="text-xs font-semibold text-ink-muted hover:text-brand-forest underline underline-offset-2"
+            >
+              Verrouiller l&apos;accès
+            </button>
           </div>
-        </div>
-      </div>
 
-      <div>
-        <h3 className="section-label mb-3">Caméras — {selectedZone.name}</h3>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {selectedZone.feeds.map((feed) => (
-            <button
-              key={feed.id}
-              type="button"
-              onClick={() => setExpandedFeedId(feed.id)}
-              className={clsx(
-                "text-left border-2 overflow-hidden transition-all",
-                expandedFeedId === feed.id ? "border-brand ring-2 ring-brand/15" : "border-line hover:border-brand/40"
-              )}
-            >
-              <FeedPreview feed={feed} zoneName={feed.label} />
-            </button>
-          ))}
-        </div>
-      </div>
+          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-5 mb-6">
+            <SiteMap zones={cameraZones} selectedId={selectedZoneId} onSelect={selectZone} />
 
-      <details className="mt-8 border border-line bg-white">
-        <summary className="px-4 py-3 text-sm font-semibold text-ink cursor-pointer hover:bg-surface-2">
-          Toutes les zones ({cameraZones.length})
-        </summary>
-        <div className="divide-y divide-line border-t border-line">
-          {cameraZones.map((zone) => (
-            <button
-              key={zone.id}
-              type="button"
-              onClick={() => selectZone(zone.id)}
-              className="w-full text-left px-4 py-3 flex items-center justify-between gap-4 hover:bg-surface-2"
-            >
-              <div>
-                <p className="text-sm font-semibold text-ink">{zone.name}</p>
-                <p className="text-xs text-muted">{zone.feeds.length} caméra(s) · {zone.activeHours}</p>
+            <div className="bg-white border border-line">
+              <FeedPreview feed={expandedFeed} zoneName={selectedZone.name} large />
+              <div className="p-4 border-t border-line">
+                <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+                  <div>
+                    <h2 className="font-display text-lg text-ink">{selectedZone.name}</h2>
+                    <p className="text-xs text-ink-muted">
+                      {selectedZone.floor} · {selectedZone.area}
+                    </p>
+                  </div>
+                  <span className="text-xs font-semibold px-2 py-1 bg-brand-light text-brand-forest">
+                    {selectedZone.childrenPresent} enfants
+                  </span>
+                </div>
+                <p className="text-sm text-ink-muted leading-relaxed">{selectedZone.description}</p>
+                <p className="text-xs text-ink-muted mt-2">
+                  Plage active : <strong className="text-ink">{selectedZone.activeHours}</strong>
+                </p>
               </div>
-              <span className="text-xs text-brand font-semibold">Voir →</span>
-            </button>
-          ))}
-        </div>
-      </details>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="section-label mb-3">Caméras — {selectedZone.name}</h3>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {selectedZone.feeds.map((feed) => (
+                <button
+                  key={feed.id}
+                  type="button"
+                  onClick={() => setExpandedFeedId(feed.id)}
+                  className={clsx(
+                    "text-left border-2 overflow-hidden transition-all",
+                    expandedFeedId === feed.id
+                      ? "border-brand-forest ring-2 ring-brand-forest/15"
+                      : "border-line hover:border-brand-forest/40"
+                  )}
+                >
+                  <FeedPreview feed={feed} zoneName={feed.label} />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <details className="mt-8 border border-line bg-white">
+            <summary className="px-4 py-3 text-sm font-semibold text-ink cursor-pointer hover:bg-surface-2">
+              Toutes les zones ({cameraZones.length})
+            </summary>
+            <div className="divide-y divide-line border-t border-line">
+              {cameraZones.map((zone) => (
+                <button
+                  key={zone.id}
+                  type="button"
+                  onClick={() => selectZone(zone.id)}
+                  className="w-full text-left px-4 py-3 flex items-center justify-between gap-4 hover:bg-surface-2"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-ink">{zone.name}</p>
+                    <p className="text-xs text-ink-muted">
+                      {zone.feeds.length} caméra(s) · {zone.activeHours}
+                    </p>
+                  </div>
+                  <span className="text-xs text-brand-forest font-semibold">Voir →</span>
+                </button>
+              ))}
+            </div>
+          </details>
+        </>
+      )}
     </div>
   );
 }

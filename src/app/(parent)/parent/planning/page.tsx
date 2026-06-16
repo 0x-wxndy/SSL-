@@ -23,10 +23,10 @@ export default function ParentPlanningPage() {
             key={c.id}
             type="button"
             onClick={() => setActiveChild(c)}
-            className={`text-xs font-semibold px-4 py-2 border transition-colors ${
+            className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
               activeChild.id === c.id
-                ? "bg-brand text-white border-brand"
-                : "bg-white text-muted border-line hover:border-brand"
+                ? "border-brand-forest bg-brand-forest text-white"
+                : "border-line bg-white text-ink-muted hover:border-brand-forest"
             }`}
           >
             {c.name.split(" ")[0]}
@@ -34,16 +34,15 @@ export default function ParentPlanningPage() {
         ))}
       </div>
 
-      <div className="bg-white border border-line p-4 mb-4">
+      <div className="card mb-4 p-4">
         <p className="text-sm font-semibold text-ink">{activeChild.name}</p>
-        <p className="text-xs text-muted mt-0.5">{activeChild.package}</p>
-        <p className="text-xs text-accent font-medium mt-2">Semaine du 26 au 30 mai</p>
+        <p className="mt-0.5 text-xs text-ink-muted">{activeChild.package}</p>
+        <p className="mt-2 text-xs font-medium text-brand-forest">Semaine du 26 au 30 mai</p>
       </div>
 
-      <div className="bg-white border border-line overflow-x-auto">
+      <div className="card overflow-x-auto">
         <div
-          className="grid text-white text-xs font-bold min-w-[480px]"
-          style={{ gridTemplateColumns: "56px repeat(5, 1fr)", backgroundColor: "var(--brand)" }}
+          className="grid min-w-[480px] grid-cols-[56px_repeat(5,1fr)] bg-brand-forest text-xs font-bold text-white"
         >
           <div className="py-2.5" />
           {days.map((d) => (
@@ -63,10 +62,10 @@ export default function ParentPlanningPage() {
               <div key={i} className="p-1.5 border-r border-line last:border-r-0 min-h-[52px]">
                 {slot !== "—" ? (
                   <div
-                    className={`text-xs font-semibold p-2 h-full leading-tight whitespace-pre-line border-l-2 ${
+                    className={`h-full border-s-2 p-2 text-xs font-semibold leading-tight whitespace-pre-line ${
                       row.type === "brand"
-                        ? "border-brand bg-brand-light text-brand"
-                        : "border-accent bg-accent-light text-amber-900"
+                        ? "border-brand-forest bg-brand-light text-brand-deep"
+                        : "border-green-forest bg-green-light text-green-deep"
                     }`}
                   >
                     {slot}

@@ -16,7 +16,7 @@ export function ParentPageHeader({
       <h1 className="font-display text-xl sm:text-2xl text-ink">
         {title ?? `Bonjour, ${firstName}`}
       </h1>
-      <p className="text-sm text-muted mt-1">
+      <p className="text-sm text-ink-muted mt-1">
         {subtitle ?? "Espace parent sécurisé · SSL+++"}
       </p>
     </div>
@@ -26,7 +26,7 @@ export function ParentPageHeader({
 export function Row({ k, v }: { k: string; v: React.ReactNode }) {
   return (
     <div className="flex justify-between items-center py-2.5 gap-4">
-      <span className="text-xs text-muted">{k}</span>
+      <span className="text-xs text-ink-muted">{k}</span>
       <span className="text-xs font-semibold text-ink text-right">{v}</span>
     </div>
   );

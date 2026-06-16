@@ -1,36 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --brand: #1A6B4A;
-  --brand-light: #E8F5EE;
-  --brand-mid: #2E9B6E;
-  --brand-dark: #0f3d28;
-  --accent: #D4840A;
-  --accent-light: #FBF0DC;
-  --surface: #FAF7F2;
-  --surface-2: #F3EDE4;
+  /* Brand — warm amber/orange (dominant) */
+  --brand-forest: #F7931A;
+  --brand-deep: #8B5200;
+  --brand-mid: #FB923C;
+  --brand-light: #FFF0D6;
+  --brand-mint: #FDE68A;
+
+  /* Green — schooling service & success semantics only */
+  --green-forest: #1B6E4F;
+  --green-deep: #0f3d28;
+  --green-mid: #2D8A64;
+  --green-light: #E0F2E9;
+
+  /* Legacy aliases (orange primary) */
+  --brand: var(--brand-forest);
+  --brand-dark: var(--brand-deep);
+  --accent: var(--brand-forest);
+  --accent-light: var(--brand-light);
+
+  /* Service accents */
+  --accent-amber: #F7931A;
+  --accent-amber-light: #FFF0D6;
+  --accent-coral: #E86C5A;
+  --accent-coral-light: #FDECEA;
+  --accent-sky: #5B8DD9;
+  --accent-sky-light: #E8F0FD;
+  --accent-plum: #9B6ED4;
+  --accent-plum-light: #F3ECFC;
+
+  /* Surfaces */
+  --surface-base: #FDF8F2;
+  --surface-green: #FFF8EE;
+  --surface-2: #F4F7F5;
+  --surface: var(--surface-base);
+
+  /* Text */
   --ink: #1A1A18;
-  --muted: #5C5A54;
+  --ink-muted: #5C5A54;
+  --ink-subtle: #8A8880;
+  --muted: var(--ink-muted);
+
+  /* Borders */
   --line: #E5DFD4;
+  --line-brand: rgba(247, 147, 26, 0.2);
+
+  /* Status */
+  --status-valid: #1B6E4F;
+  --status-valid-bg: #D4EDDA;
+  --status-wait: #D4840A;
+  --status-wait-bg: #FFF3CD;
+  --status-error: #B91C1C;
+  --status-error-bg: #F8D7DA;
+  --status-info: #155e75;
+  --status-info-bg: #D1ECF1;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 body {
-  font-family: 'IBM Plex Sans', sans-serif;
-  background-color: var(--surface);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: var(--surface-base);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
 
+[dir="rtl"] body {
+  font-family: 'Noto Sans Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
 .font-display {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
 }
 
 h1, h2, h3 {
-  font-family: 'Libre Baskerville', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
 }
 
 @layer components {
@@ -39,14 +93,134 @@ h1, h2, h3 {
   }
 
   .btn-primary {
-    @apply inline-block px-5 py-2.5 text-sm font-semibold bg-brand text-white border border-brand transition-colors hover:bg-brand-dark;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-colors;
+    background-color: var(--brand-forest);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--brand-deep);
   }
 
   .btn-secondary {
-    @apply inline-block px-5 py-2.5 text-sm font-semibold bg-white text-ink border border-line transition-colors hover:border-brand hover:text-brand;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 px-6 py-2.5 text-sm font-semibold transition-colors;
+    border-color: var(--brand-forest);
+    color: var(--brand-forest);
+    background-color: transparent;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--brand-light);
+  }
+
+  .btn-amber {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-colors;
+    background-color: var(--accent-amber);
+  }
+
+  .btn-amber:hover {
+    background-color: #ea580c;
+  }
+
+  .btn-sm {
+    @apply rounded-lg px-4 py-2 text-xs;
   }
 
   .section-label {
-    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-muted;
+    @apply mb-2 text-[11px] font-semibold uppercase tracking-widest;
+    color: var(--brand-forest);
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium;
+  }
+
+  .badge-valid {
+    background-color: var(--status-valid-bg);
+    color: var(--status-valid);
+  }
+
+  .badge-wait {
+    background-color: var(--status-wait-bg);
+    color: var(--status-wait);
+  }
+
+  .badge-info {
+    background-color: var(--status-info-bg);
+    color: var(--status-info);
+  }
+
+  .badge-error {
+    background-color: var(--status-error-bg);
+    color: var(--status-error);
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-white shadow-card;
+  }
+
+  .hero-home {
+    @apply relative overflow-hidden;
+  }
+
+  .hero-home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/assets/herobg2.png");
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: min(100%, 1200px) auto;
+    opacity: 0.62;
+    pointer-events: none;
+  }
+
+  .hero-home::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(253, 248, 242, 0.78) 0%,
+      rgba(253, 248, 242, 0.62) 50%,
+      rgba(253, 248, 242, 0.42) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hero-home__content {
+    @apply relative z-10;
+  }
+
+  .about-home {
+    @apply relative overflow-hidden border-b border-line;
+  }
+
+  .about-home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/assets/herobg.jpg");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: min(100%, 1200px) auto;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .about-home::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(253, 248, 242, 0.92) 0%,
+      rgba(253, 248, 242, 0.82) 55%,
+      rgba(253, 248, 242, 0.68) 100%
+    );
+    pointer-events: none;
+  }
+
+  .about-home__content {
+    @apply relative z-10;
   }
 }

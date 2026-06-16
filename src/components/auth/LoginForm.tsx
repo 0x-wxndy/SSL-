@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ESTABLISHMENT } from "@/lib/constants";
+import Logo from "@/components/brand/Logo";
 
-type Portal = "parent" | "admin";
+type Portal = "parent" | "admin" | "marketplace";
 
 type DemoAccount = { email: string; password: string; label: string };
 
@@ -42,7 +42,9 @@ export default function LoginForm({ portal, title, subtitle, demoAccounts }: Log
       }
 
       const from = searchParams.get("from");
-      router.push(from && from.startsWith(`/${portal}`) ? from : data.redirect);
+      const defaultRedirect =
+        portal === "parent" ? "/parent" : portal === "marketplace" ? "/marketplace/compte" : "/admin";
+      router.push(from && from.startsWith(`/${portal === "marketplace" ? "marketplace" : portal}`) ? from : data.redirect ?? defaultRedirect);
       router.refresh();
     } catch {
       setError("Erreur réseau — réessayez");
@@ -58,69 +60,66 @@ export default function LoginForm({ portal, title, subtitle, demoAccounts }: Log
   }
 
   return (
-    <div className="min-h-[calc(100vh-0px)] flex items-center justify-center px-4 py-12 bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-surface">
       <div className="w-full max-w-md">
-        <div className="text-center mb-6">
-          <div className="font-sora text-2xl font-bold" style={{ color: "var(--brand)" }}>
-            {ESTABLISHMENT.abbr}
+        <div className="mb-6 text-center">
+          <div className="mb-4 flex justify-center">
+            <Logo href="/" imageClassName="w-[140px]" />
           </div>
-          <h1 className="font-sora text-lg font-semibold mt-2 text-gray-900">{title}</h1>
-          <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+          <h1 className="font-display text-lg font-semibold text-ink">{title}</h1>
+          <p className="mt-1 text-sm text-ink-muted">{subtitle}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white border border-line p-6 space-y-4">
           {error && (
-            <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+            <div className="text-xs font-semibold text-red-700 bg-red-50 border border-red-100 px-3 py-2">
               {error}
             </div>
           )}
 
           <div>
-            <label className="text-xs font-semibold text-gray-500">Email</label>
+            <label className="text-xs font-semibold text-muted">Email</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full text-sm px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:border-brand"
+              className="mt-1 w-full text-sm px-3 py-2.5 border border-line bg-white focus:outline-none focus:border-brand-forest"
               placeholder="votre@email.dz"
             />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500">Mot de passe</label>
+            <label className="text-xs font-semibold text-muted">Mot de passe</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full text-sm px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:border-brand"
+              className="mt-1 w-full text-sm px-3 py-2.5 border border-line bg-white focus:outline-none focus:border-brand-forest"
               placeholder="••••••••"
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2.5 rounded-lg text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-            style={{ backgroundColor: "var(--brand)" }}
-          >
+          <button type="submit" disabled={loading} className="btn-primary w-full disabled:opacity-50">
             {loading ? "Connexion..." : "Se connecter"}
           </button>
         </form>
 
-        <div className="mt-4 bg-white rounded-xl border border-dashed border-gray-200 p-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Comptes démo (MVP)</p>
+        <div className="mt-4 bg-white border border-dashed border-line p-4">
+          <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-2">
+            Comptes démo (MVP)
+          </p>
           <div className="space-y-2">
             {demoAccounts.map((account) => (
               <button
                 key={account.email}
                 type="button"
                 onClick={() => fillDemo(account)}
-                className="w-full text-left text-xs px-3 py-2 rounded-lg border border-gray-100 hover:border-brand hover:bg-brand-light transition-colors"
+                className="w-full text-left text-xs px-3 py-2 border border-line hover:border-brand-forest hover:bg-brand-light transition-colors"
               >
-                <span className="font-semibold text-gray-800">{account.label}</span>
-                <span className="block text-gray-400 mt-0.5">{account.email}</span>
+                <span className="font-semibold text-ink">{account.label}</span>
+                <span className="block text-muted mt-0.5">{account.email}</span>
               </button>
             ))}
           </div>

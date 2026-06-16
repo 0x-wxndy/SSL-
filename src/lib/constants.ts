@@ -1,11 +1,75 @@
 export const ESTABLISHMENT = {
   name: "Services Solutions Life+++",
   abbr: "SSL+++",
+  tagline: "Plateforme d'aide sociale",
   ageRange: "6 à 18 ans",
   languages: ["Français", "Arabe", "English"] as const,
   validationDelay: "3 jours maximum",
   augustClosed: true,
 };
+
+export type PlatformService = {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: string;
+  available: boolean;
+  href: string;
+};
+
+export const PLATFORM_SERVICES: PlatformService[] = [
+  {
+    id: "accompagnement-scolaire",
+    title: "Accompagnement scolaire",
+    subtitle: "Garde & éducation · 6–18 ans",
+    description:
+      "Garderie, sorties d'école, soutien scolaire et suivi parental dans un cadre sécurisé, trilingue et adapté à votre rythme familial.",
+    icon: "🎓",
+    available: true,
+    href: "/services/accompagnement-scolaire",
+  },
+  {
+    id: "services-domicile",
+    title: "Services à domicile",
+    subtitle: "Ménage & entretien du foyer",
+    description:
+      "Nettoyage, repassage, entretien courant et aide à l'organisation du quotidien à domicile, par des professionnels de confiance.",
+    icon: "🏠",
+    available: false,
+    href: "/services/services-domicile",
+  },
+  {
+    id: "accompagnement-seniors",
+    title: "Accompagnement des seniors",
+    subtitle: "Aide et présence au quotidien",
+    description:
+      "Accompagnement des personnes âgées : aide à la mobilité, courses, repas, compagnie et coordination avec les proches.",
+    icon: "🤝",
+    available: false,
+    href: "/services/accompagnement-seniors",
+  },
+  {
+    id: "activites-alzheimer",
+    title: "Activités Alzheimer",
+    subtitle: "Stimulation & bien-être",
+    description:
+      "Ateliers de stimulation cognitive, activités adaptées et programmes d'accompagnement pour les personnes atteintes d'Alzheimer.",
+    icon: "🧩",
+    available: false,
+    href: "/services/activites-alzheimer",
+  },
+  {
+    id: "aide-familiale",
+    title: "Aide familiale",
+    subtitle: "Soutien aux familles",
+    description:
+      "Conciergerie du quotidien, garde ponctuelle, coordination des besoins du foyer et services sur mesure selon votre situation.",
+    icon: "💚",
+    available: false,
+    href: "/services/aide-familiale",
+  },
+];
 
 export const PACKAGES = [
   {

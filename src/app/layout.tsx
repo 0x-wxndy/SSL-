@@ -3,7 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SSL+++ | Services Solutions Life+++",
-  description: "Accompagnement scolaire et garde d'enfants de 6 à 18 ans — français, arabe, anglais",
+  description:
+    "Plateforme d'aide sociale : accompagnement scolaire, services à domicile, aide aux seniors et activités Alzheimer.",
+  icons: {
+    icon: "/assets/ssl-logo.png",
+    apple: "/assets/ssl-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -11,7 +16,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr">
-      <body className="min-h-screen bg-surface text-ink">{children}</body>
+      <body className="min-h-screen bg-surface-base font-body text-ink antialiased">{children}</body>
     </html>
   );
 }

@@ -3,17 +3,17 @@ import { ESTABLISHMENT } from "@/lib/constants";
 
 export default function ContactPage() {
   return (
-    <div className="site-wrap py-10 sm:py-14 max-w-2xl">
-      <p className="section-label mb-2">Nous joindre</p>
-      <h1 className="font-display text-3xl text-ink mb-2">Contact</h1>
-      <p className="text-muted text-sm mb-8">{ESTABLISHMENT.name}</p>
+    <div className="site-wrap max-w-2xl py-10 sm:py-14">
+      <p className="section-label">Nous joindre</p>
+      <h1 className="mb-2 font-display text-3xl font-bold text-ink">Contact</h1>
+      <p className="mb-8 text-sm text-ink-muted">{ESTABLISHMENT.name}</p>
 
-      <div className="border border-line bg-white">
-        <div className="px-6 py-5 bg-brand text-white border-b border-brand-dark">
-          <p className="text-sm leading-relaxed">Enfants accueillis de {ESTABLISHMENT.ageRange}.</p>
-          <p className="text-xs text-white/65 mt-2">{ESTABLISHMENT.languages.join(" · ")}</p>
+      <div className="card overflow-hidden">
+        <div className="border-b border-brand-deep/20 bg-brand-forest px-6 py-5 text-white">
+          <p className="text-sm leading-relaxed">Plateforme d&apos;aide sociale — {ESTABLISHMENT.languages.join(" · ")}</p>
+          <p className="mt-2 text-xs text-white/70">Service scolaire : enfants {ESTABLISHMENT.ageRange}</p>
         </div>
-        <div className="p-6 space-y-5 text-sm">
+        <div className="space-y-5 p-6 text-sm">
           <div>
             <p className="section-label mb-1">Téléphone</p>
             <p className="text-ink">+213 XX XX XX XX</p>
@@ -25,12 +25,12 @@ export default function ContactPage() {
           <div>
             <p className="section-label mb-1">Horaires</p>
             <p className="text-ink">Lundi – Vendredi, 07h00 – 20h00</p>
-            <p className="text-accent text-xs mt-1 font-medium">Fermé en août</p>
+            <p className="mt-1 text-xs font-medium text-brand-forest">Fermé en août (service scolaire)</p>
           </div>
           <hr className="border-line" />
-          <p className="text-muted text-xs leading-relaxed">
-            Inscription en ligne — délai {ESTABLISHMENT.validationDelay}.{" "}
-            <Link href="/inscription" className="text-brand font-semibold underline underline-offset-2">
+          <p className="text-xs leading-relaxed text-ink-muted">
+            Inscription scolaire — délai {ESTABLISHMENT.validationDelay}.{" "}
+            <Link href="/inscription" className="font-semibold text-brand-forest underline underline-offset-2">
               Accéder au formulaire
             </Link>
           </p>
