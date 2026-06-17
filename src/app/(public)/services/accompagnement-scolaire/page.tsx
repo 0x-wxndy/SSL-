@@ -1,30 +1,91 @@
+import clsx from "clsx";
+import {
+  ArrowRight,
+  BookOpen,
+  FileCheck,
+  Languages,
+  ShieldCheck,
+  Smartphone,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
+import SchoolingHeroFrame from "@/components/public/SchoolingHeroFrame";
 import { ESTABLISHMENT, JOURNEE_TYPE, PACKAGES } from "@/lib/constants";
+
+const FEATURES = [
+  {
+    icon: ShieldCheck,
+    title: "Sécurité à l'entrée",
+    description:
+      "Badge d'accès pour chaque enfant et chaque membre du personnel — contrôle systématique à l'entrée du site.",
+    accent: true,
+  },
+  {
+    icon: FileCheck,
+    title: "Dossier médical & administratif",
+    description:
+      "Vaccins, allergies, autorisations photo et sortie : un dossier complet, validé par l'administration avant l'accueil.",
+    accent: false,
+  },
+  {
+    icon: Smartphone,
+    title: "Espace parent en ligne",
+    description:
+      "Planning, messages, caméras et suivi des prestations — tout est accessible après connexion, où que vous soyez.",
+    accent: false,
+  },
+  {
+    icon: Languages,
+    title: "Communication trilingue",
+    description:
+      "Notre équipe vous accueille en français, arabe et anglais pour un dialogue fluide avec chaque famille.",
+    accent: false,
+  },
+] as const;
+
+const QUICK_LINKS = [
+  { href: "/inscription/parent", label: "Inscription en ligne", note: "Ouvrir le dossier de votre enfant" },
+  { href: "/reglement-interieur", label: "Règlement intérieur", note: "Règles, horaires et fonctionnement" },
+  { href: "/connexion?role=parent", label: "Espace parent", note: "Planning, messages et caméras" },
+  { href: "/connexion?role=admin", label: "Accès équipe", note: "Connexion staff & administration" },
+  { href: "/contact", label: "Nous contacter", note: "Coordonnées et prise de rendez-vous" },
+] as const;
 
 export default function AccompagnementScolairePage() {
   return (
     <div>
-      <section className="border-b border-line">
-        <div className="site-wrap py-12 sm:py-16 lg:py-20">
-          <div className="grid lg:grid-cols-[1fr_340px] gap-10 lg:gap-16 items-start">
+      {/* Hero */}
+      <section className="relative overflow-x-clip border-b border-line bg-green-light">
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-green-light via-white/40 to-brand-light/30"
+          aria-hidden
+        />
+        <div className="site-wrap relative py-12 sm:py-16 lg:py-20">
+          <div className="grid items-start gap-10 lg:grid-cols-[1fr_380px] lg:gap-14">
             <div>
               <Link
                 href="/"
-                className="text-sm text-ink-muted hover:text-brand-forest mb-4 inline-block"
+                className="mb-5 inline-flex items-center gap-1 text-sm text-ink-muted transition-colors hover:text-green-forest"
               >
-                ← Retour à la plateforme
+                ← Retour à l&apos;accueil
               </Link>
-              <p className="section-label mb-4">Service · Accompagnement scolaire</p>
-              <h1 className="font-display text-[2rem] sm:text-[2.75rem] lg:text-[3.25rem] leading-[1.15] text-ink mb-5">
-                Un lieu d&apos;accueil entre{" "}
+
+              <span className="mb-4 inline-flex items-center rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-green-forest shadow-card backdrop-blur-sm">
+                🎓 Accompagnement scolaire · {ESTABLISHMENT.ageRange}
+              </span>
+
+              <h1 className="mb-5 font-display text-[2rem] font-bold leading-[1.12] text-ink sm:text-[2.75rem] lg:text-[3.25rem]">
+                Un pont entre{" "}
                 <span className="italic text-green-forest">l&apos;école</span> et{" "}
                 <span className="italic text-green-forest">la maison</span>
               </h1>
-              <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-lg mb-8">
-                Garderie, accompagnement scolaire et soutien éducatif pour les{" "}
-                {ESTABLISHMENT.ageRange}. Une équipe trilingue, des horaires adaptés à votre
-                rythme familial.
+
+              <p className="mb-6 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
+                Garderie, sorties d&apos;école, soutien scolaire et suivi parental pour les{" "}
+                {ESTABLISHMENT.ageRange}. Une équipe trilingue, des horaires souples et un cadre
+                sécurisé pensé pour votre rythme familial.
               </p>
+
               <div className="flex flex-wrap gap-3">
                 <Link href="/inscription/parent" className="btn-primary">
                   Demander une inscription
@@ -32,184 +93,217 @@ export default function AccompagnementScolairePage() {
                 <Link href="/connexion?role=parent" className="btn-secondary">
                   Espace parent
                 </Link>
-                <Link href="/connexion?role=admin" className="btn-secondary">
-                  Accès équipe
-                </Link>
               </div>
             </div>
 
-            <aside className="bg-green-forest p-6 text-white sm:p-7 lg:sticky lg:top-20">
-              <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-4">
-                Horaires
-              </p>
-              <ul className="space-y-3 text-sm leading-snug">
-                <li className="flex justify-between gap-4 border-b border-white/15 pb-3">
-                  <span className="text-white/80">Matin</span>
-                  <span className="font-semibold tabular-nums">07h – 13h</span>
-                </li>
-                <li className="flex justify-between gap-4 border-b border-white/15 pb-3">
-                  <span className="text-white/80">Après-midi</span>
-                  <span className="font-semibold tabular-nums">15h – 17h</span>
-                </li>
-                <li className="flex justify-between gap-4 border-b border-white/15 pb-3">
-                  <span className="text-white/80">Soutien</span>
-                  <span className="font-semibold tabular-nums">17h – 20h</span>
-                </li>
-                <li className="flex justify-between gap-4">
-                  <span className="text-white/80">Journée complète</span>
-                  <span className="font-semibold tabular-nums">07h – 20h</span>
-                </li>
-              </ul>
-              <p className="text-xs text-white/55 mt-5 leading-relaxed">
-                Pas de sieste sur site. Fermeture au mois d&apos;août.
-              </p>
-            </aside>
+            <div className="flex min-h-[320px] w-full items-center justify-center py-4 sm:min-h-[360px] lg:sticky lg:top-20 lg:min-h-[380px] lg:justify-end lg:py-0">
+              <SchoolingHeroFrame />
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Features */}
       <section className="border-b border-line bg-white">
-        <div className="site-wrap py-12 sm:py-14">
-          <div className="grid md:grid-cols-[180px_1fr] gap-6 md:gap-12">
-            <p className="section-label md:pt-1">Ce que nous proposons</p>
-            <div>
-              <h2 className="font-display text-2xl sm:text-3xl text-ink mb-6">
-                Suivi, sécurité et dialogue avec les familles
-              </h2>
-              <ul className="space-y-4 text-[15px] text-ink-muted leading-relaxed">
-                <li className="border-s-2 border-green-forest ps-4">
-                  <strong className="text-ink font-semibold">Badge d&apos;accès</strong> — chaque
-                  enfant et chaque membre du personnel est identifié à l&apos;entrée du site.
-                </li>
-                <li className="pl-4 border-l-2 border-line">
-                  <strong className="text-ink font-semibold">Dossier médical & administratif</strong>{" "}
-                  — vaccins, allergies, autorisations photo et sortie, validés par
-                  l&apos;administration.
-                </li>
-                <li className="pl-4 border-l-2 border-line">
-                  <strong className="text-ink font-semibold">Espace parent</strong> — planning,
-                  messages, caméras et coût des prestations, accessibles après connexion.
-                </li>
-                <li className="pl-4 border-l-2 border-line">
-                  <strong className="text-ink font-semibold">Communication</strong> — équipe
-                  disponible en français, arabe et anglais.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-line">
-        <div className="site-wrap py-12 sm:py-14">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-            <div>
-              <p className="section-label mb-2">Tarification</p>
-              <h2 className="font-display text-2xl sm:text-3xl text-ink">Nos formules</h2>
-            </div>
-            <p className="text-sm text-ink-muted max-w-xs sm:text-right">
-              Facturation par package. Absences avec préavis. Liste d&apos;attente possible.
+        <div className="site-wrap py-12 sm:py-16">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="section-label text-green-forest">Notre promesse</p>
+            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
+              Suivi éducatif, sécurité et dialogue avec les familles
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
+              Chaque enfant est accueilli dans un environnement structuré, où la sécurité et la
+              communication avec les parents sont au cœur de notre mission.
             </p>
           </div>
 
-          <div className="border border-line bg-white divide-y divide-line">
+          <div className="grid gap-5 sm:grid-cols-2 lg:gap-6">
+            {FEATURES.map(({ icon: Icon, title, description, accent }) => (
+              <div
+                key={title}
+                className={clsx(
+                  "rounded-xl border p-5 sm:p-6",
+                  accent
+                    ? "border-green-forest/25 bg-green-light/70"
+                    : "border-line bg-surface-2"
+                )}
+              >
+                <span
+                  className={clsx(
+                    "mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl",
+                    accent ? "bg-green-forest text-white" : "bg-white text-green-forest shadow-card"
+                  )}
+                >
+                  <Icon className="h-5 w-5" aria-hidden />
+                </span>
+                <h3 className="text-base font-bold text-ink">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="border-b border-line bg-surface-2">
+        <div className="site-wrap py-12 sm:py-16">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="section-label text-green-forest">Tarification</p>
+              <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
+                Des formules adaptées à chaque besoin
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm leading-relaxed text-ink-muted sm:text-right">
+              Facturation par package. Absences avec préavis. Liste d&apos;attente possible selon
+              les places disponibles.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
             {PACKAGES.map((pkg) => (
               <article
                 key={pkg.id}
-                className={`flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-8 p-5 sm:p-6 ${
-                  pkg.featured ? "bg-brand-light/50" : ""
-                }`}
+                className={clsx(
+                  "relative flex flex-col rounded-xl border bg-white p-5 shadow-card transition-shadow hover:shadow-hover sm:p-6",
+                  pkg.featured
+                    ? "border-green-forest/40 ring-2 ring-green-forest/15"
+                    : "border-line"
+                )}
               >
-                <div className="flex items-baseline gap-3 sm:w-48 flex-shrink-0">
-                  <span className="font-display text-2xl tabular-nums text-green-forest/30">
-                    {String(pkg.id).padStart(2, "0")}
+                {pkg.featured && (
+                  <span className="absolute -top-3 right-5 rounded-full bg-green-forest px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                    Recommandé
+                  </span>
+                )}
+                <div className="mb-3 flex items-start gap-3">
+                  <span className="text-2xl" aria-hidden>
+                    {pkg.icon}
                   </span>
                   <div>
-                    <h3 className="font-semibold text-ink text-[15px] leading-snug">{pkg.name}</h3>
-                    {pkg.featured && (
-                      <span className="mt-1 inline-block text-[10px] font-bold uppercase tracking-wider text-brand-forest">
-                        Recommandé
-                      </span>
-                    )}
+                    <h3 className="font-display text-lg font-bold text-ink">{pkg.name}</h3>
+                    <p className="mt-1 text-sm font-semibold tabular-nums text-green-forest">
+                      {pkg.hours}
+                    </p>
                   </div>
                 </div>
-                <p className="flex-shrink-0 text-sm font-medium tabular-nums text-green-forest sm:w-36">
-                  {pkg.hours}
-                </p>
-                <p className="text-sm text-ink-muted leading-relaxed flex-1">{pkg.desc}</p>
+                <p className="text-sm leading-relaxed text-ink-muted">{pkg.desc}</p>
               </article>
             ))}
           </div>
 
-          <p className="text-sm text-ink-muted mt-5">
-            Une question sur la formule adaptée à votre enfant ?{" "}
-            <Link href="/contact" className="text-brand-forest font-semibold underline underline-offset-2">
+          <p className="mt-8 text-center text-sm text-ink-muted">
+            Besoin d&apos;aide pour choisir la formule idéale ?{" "}
+            <Link
+              href="/contact"
+              className="font-semibold text-green-forest underline underline-offset-2 hover:text-green-deep"
+            >
               Contactez-nous
             </Link>{" "}
             ou{" "}
-            <Link href="/inscription/parent" className="text-brand-forest font-semibold underline underline-offset-2">
-              lancez une inscription
+            <Link
+              href="/inscription/parent"
+              className="font-semibold text-green-forest underline underline-offset-2 hover:text-green-deep"
+            >
+              lancez une inscription en ligne
             </Link>
             .
           </p>
         </div>
       </section>
 
-      <section className="border-b border-line bg-surface-2">
-        <div className="site-wrap py-12 sm:py-14">
-          <p className="section-label mb-2">Organisation</p>
-          <h2 className="font-display text-2xl sm:text-3xl text-ink mb-8">Une journée type</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse min-w-[480px]">
-              <thead>
-                <tr className="border-b-2 border-ink/20 text-left">
-                  <th className="pb-3 pr-6 font-semibold text-ink-muted text-xs uppercase tracking-wider w-28">
-                    Heure
-                  </th>
-                  <th className="pb-3 pr-6 font-semibold text-ink-muted text-xs uppercase tracking-wider w-40">
-                    Activité
-                  </th>
-                  <th className="pb-3 font-semibold text-ink-muted text-xs uppercase tracking-wider">
-                    Détail
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line">
-                {JOURNEE_TYPE.map((slot) => (
-                  <tr key={slot.label} className="group">
-                    <td className="py-3.5 pr-6 font-medium text-brand-forest tabular-nums align-top">
-                      {slot.time}
-                    </td>
-                    <td className="py-3.5 pr-6 font-semibold text-ink align-top">{slot.label}</td>
-                    <td className="py-3.5 text-ink-muted align-top leading-relaxed">{slot.detail}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Daily schedule */}
+      <section className="border-b border-line bg-green-light/60">
+        <div className="site-wrap py-12 sm:py-16">
+          <div className="mb-10 max-w-2xl">
+            <p className="section-label text-green-forest">Organisation</p>
+            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
+              Une journée type chez {ESTABLISHMENT.abbr}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
+              De l&apos;accueil matinal au soutien du soir, chaque créneau est encadré par notre
+              équipe éducative.
+            </p>
+          </div>
+
+          <div className="relative space-y-0">
+            {JOURNEE_TYPE.map((slot, i) => (
+              <div
+                key={slot.label}
+                className={clsx(
+                  "relative grid gap-3 border-l-2 border-green-forest/30 py-5 pl-6 sm:grid-cols-[120px_180px_1fr] sm:gap-6 sm:pl-8",
+                  i === 0 && "pt-0",
+                  i === JOURNEE_TYPE.length - 1 && "pb-0"
+                )}
+              >
+                <span
+                  className="absolute -left-[7px] top-6 h-3 w-3 rounded-full bg-green-forest ring-4 ring-green-light"
+                  aria-hidden
+                />
+                <p className="text-sm font-bold tabular-nums text-green-forest">{slot.time}</p>
+                <p className="font-semibold text-ink">{slot.label}</p>
+                <p className="text-sm leading-relaxed text-ink-muted sm:col-start-3 sm:row-start-1">
+                  {slot.detail}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section>
+      {/* Parent value */}
+      <section className="border-b border-line bg-white">
         <div className="site-wrap py-12 sm:py-14">
-          <p className="section-label mb-6">Accès — service scolaire</p>
-          <div className="grid sm:grid-cols-2 gap-px bg-line border border-line">
-            {[
-              { href: "/inscription/parent", label: "Inscription en ligne", note: "Créer le dossier enfant" },
-              { href: "/reglement-interieur", label: "Règlement intérieur", note: "Règles et fonctionnement" },
-              { href: "/connexion?role=parent", label: "Espace parent", note: "Planning, messages, caméras" },
-              { href: "/connexion?role=admin", label: "Accès équipe", note: "Connexion staff & administration" },
-              { href: "/contact", label: "Contact", note: "Coordonnées et horaires d'accueil" },
-            ].map((item) => (
+          <div className="rounded-2xl border border-green-forest/20 bg-gradient-to-br from-green-light/80 to-white p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
+            <div className="max-w-xl">
+              <p className="section-label text-green-forest">Pour les parents</p>
+              <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
+                Restez informés, à chaque étape
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-ink-muted sm:text-base">
+                Dossier en ligne, validation sous {ESTABLISHMENT.validationDelay}, suivi des
+                présences et facturation transparente — tout est centralisé sur la plateforme{" "}
+                {ESTABLISHMENT.abbr}.
+              </p>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3 lg:mt-0 lg:shrink-0">
+              <Link href="/inscription/parent" className="btn-primary">
+                <Users className="h-4 w-4" aria-hidden />
+                Inscrire mon enfant
+              </Link>
+              <Link href="/connexion?role=parent" className="btn-secondary !border-green-forest !text-green-forest hover:!bg-green-light">
+                <BookOpen className="h-4 w-4" aria-hidden />
+                Mon espace
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick links */}
+      <section className="bg-surface-green">
+        <div className="site-wrap py-12 sm:py-14">
+          <p className="section-label mb-2 text-green-forest">Accès rapides</p>
+          <h2 className="mb-8 font-display text-2xl font-bold text-ink sm:text-3xl">
+            Tout ce dont vous avez besoin
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {QUICK_LINKS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="block bg-white p-5 transition-colors hover:bg-brand-light/40 sm:p-6 group"
+                className="group flex items-start justify-between gap-4 rounded-xl border border-line bg-white p-5 transition-all hover:border-green-forest/30 hover:bg-green-light/40 hover:shadow-card sm:p-6"
               >
-                <span className="font-display text-lg text-ink group-hover:text-brand-forest transition-colors">
-                  {item.label}
-                </span>
-                <span className="block text-sm text-ink-muted mt-1">{item.note}</span>
+                <div>
+                  <span className="font-display text-lg text-ink transition-colors group-hover:text-green-forest">
+                    {item.label}
+                  </span>
+                  <span className="mt-1 block text-sm text-ink-muted">{item.note}</span>
+                </div>
+                <ArrowRight
+                  className="mt-1 h-4 w-4 shrink-0 text-ink-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-green-forest"
+                  aria-hidden
+                />
               </Link>
             ))}
           </div>

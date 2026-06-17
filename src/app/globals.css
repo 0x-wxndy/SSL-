@@ -179,10 +179,10 @@ h1, h2, h3 {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      180deg,
-      rgba(253, 248, 242, 0.78) 0%,
-      rgba(253, 248, 242, 0.62) 50%,
-      rgba(253, 248, 242, 0.42) 100%
+      105deg,
+      rgba(253, 248, 242, 0.94) 0%,
+      rgba(253, 248, 242, 0.82) 45%,
+      rgba(255, 240, 214, 0.55) 100%
     );
     pointer-events: none;
   }

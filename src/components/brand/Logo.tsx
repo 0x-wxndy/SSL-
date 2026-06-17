@@ -4,8 +4,13 @@ import clsx from "clsx";
 
 const LOGO_SRC = "/assets/ssl-logo.png";
 
+/** Intrinsic ratio of ssl-logo.png (~1.45:1 width/height) */
+const LOGO_WIDTH = 160;
+const LOGO_HEIGHT = 110;
+
 type LogoProps = {
-  href?: string;
+  /** Omit for home (`/`). Pass `false` to render without a link. */
+  href?: string | false;
   className?: string;
   imageClassName?: string;
   showTagline?: boolean;
@@ -13,7 +18,7 @@ type LogoProps = {
 };
 
 export default function Logo({
-  href = "/",
+  href,
   className,
   imageClassName,
   showTagline = false,
@@ -24,10 +29,10 @@ export default function Logo({
       <Image
         src={LOGO_SRC}
         alt="SSL+++ — Services Solutions Life"
-        width={140}
-        height={72}
+        width={LOGO_WIDTH}
+        height={LOGO_HEIGHT}
         priority={priority}
-        className={clsx("h-auto object-contain", imageClassName)}
+        className={clsx("h-auto w-auto object-contain", imageClassName)}
       />
       {showTagline && (
         <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-brand-mid">
@@ -37,13 +42,15 @@ export default function Logo({
     </span>
   );
 
-  if (href) {
-    return (
-      <Link href={href} className="inline-block shrink-0" aria-label="SSL+++ — Accueil">
-        {content}
-      </Link>
-    );
+  if (href === false) {
+    return content;
   }
 
-  return content;
+  const linkHref = href ?? "/";
+
+  return (
+    <Link href={linkHref} className="inline-block shrink-0" aria-label="SSL+++ — Accueil">
+      {content}
+    </Link>
+  );
 }

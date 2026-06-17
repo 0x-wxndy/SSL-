@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Plus, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import type { Session } from "@/lib/auth";
+import { marketplacePublisherId } from "@/lib/auth";
+import UserAccountMenu from "@/components/auth/UserAccountMenu";
 import MarketplaceListingCard from "@/components/marketplace/MarketplaceListingCard";
+import MarketplacePublishPrompt from "@/components/marketplace/MarketplacePublishPrompt";
 import { getListingsByProvider } from "@/lib/marketplace-data";
 
 export default function MarketplaceAccountPage() {
@@ -20,37 +23,44 @@ export default function MarketplaceAccountPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/connexion?role=user&from=/marketplace/compte");
+    }
+  }, [loading, user, router]);
+
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/marketplace");
     router.refresh();
   }
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="site-wrap py-12 text-center text-sm text-ink-muted">Chargement…</div>
     );
   }
 
-  if (!user?.providerId) {
-    return null;
-  }
-
-  const myListings = getListingsByProvider(user.providerId);
+  const publisherId = marketplacePublisherId(user);
+  const myListings = publisherId ? getListingsByProvider(publisherId) : [];
+  const isProvider = user.role === "provider";
 
   return (
     <div className="site-wrap py-10 sm:py-12">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="section-label">Espace prestataire</p>
+          <p className="section-label">
+            {isProvider ? "Espace prestataire" : "Mon espace marketplace"}
+          </p>
           <h1 className="font-display text-2xl font-bold text-ink">Bonjour, {user.name}</h1>
-          <p className="mt-1 text-sm text-ink-muted">Gérez vos annonces sur le marketplace SSL+++</p>
+          <p className="mt-1 text-sm text-ink-muted">
+            {isProvider
+              ? "Gérez vos annonces sur le marketplace SSL+++"
+              : "Publiez et suivez vos annonces d'aide sociale"}
+          </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/marketplace/publier" className="btn-primary inline-flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Nouvelle annonce
-          </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <UserAccountMenu user={user} onUserChange={setUser} theme="light" />
           <button type="button" onClick={logout} className="btn-secondary inline-flex items-center gap-2">
             <LogOut className="h-4 w-4" />
             Déconnexion
@@ -70,6 +80,8 @@ export default function MarketplaceAccountPage() {
           </div>
         ))}
       </div>
+
+      <MarketplacePublishPrompt />
 
       <h2 className="mb-4 font-display text-lg font-semibold text-ink">Mes annonces</h2>
       {myListings.length === 0 ? (

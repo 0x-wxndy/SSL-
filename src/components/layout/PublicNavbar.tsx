@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "@/components/brand/Logo";
+import UserAccountMenu from "@/components/auth/UserAccountMenu";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import ServicesDropdown, { ServicesMobileList } from "@/components/layout/ServicesDropdown";
+import type { Session } from "@/lib/auth";
+import { canAccessMarketplace } from "@/lib/auth";
 import { useLocale } from "@/lib/i18n/locale-context";
 
 function navLinkClass(active: boolean) {
@@ -23,8 +26,17 @@ export default function PublicNavbar() {
   const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [user, setUser] = useState<Session | null>(null);
   const onServicePage = pathname.startsWith("/services/");
   const onMarketplace = pathname.startsWith("/marketplace");
+  const marketplaceMember = user && canAccessMarketplace(user);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setUser(data?.user ?? null))
+      .catch(() => setUser(null));
+  }, [pathname]);
 
   const links = [
     { href: "/", label: t.nav.home },
@@ -58,18 +70,32 @@ export default function PublicNavbar() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
-            <Link
-              href="/inscription"
-              className="rounded-full px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
-            >
-              {t.nav.createAccount}
-            </Link>
-            <Link
-              href="/connexion"
-              className="rounded-full border border-brand-forest px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
-            >
-              {t.nav.login}
-            </Link>
+            {marketplaceMember ? (
+              <>
+                <Link
+                  href="/marketplace/compte"
+                  className="rounded-full px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
+                >
+                  Mon compte
+                </Link>
+                <UserAccountMenu user={user} onUserChange={setUser} theme="light" />
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/inscription"
+                  className="rounded-full px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
+                >
+                  {t.nav.createAccount}
+                </Link>
+                <Link
+                  href="/connexion?role=user"
+                  className="rounded-full border border-brand-forest px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
+                >
+                  {t.nav.login}
+                </Link>
+              </>
+            )}
             <LanguageSwitcher />
           </div>
 
@@ -109,20 +135,37 @@ export default function PublicNavbar() {
             >
               {t.nav.marketplace}
             </Link>
-            <Link
-              href="/inscription"
-              onClick={() => setOpen(false)}
-              className="block border-b border-line/60 py-2 text-sm text-ink"
-            >
-              {t.nav.createAccount}
-            </Link>
-            <Link
-              href="/connexion"
-              onClick={() => setOpen(false)}
-              className="btn-primary mt-4 w-full text-center"
-            >
-              {t.nav.login}
-            </Link>
+            {marketplaceMember ? (
+              <>
+                <Link
+                  href="/marketplace/compte"
+                  onClick={() => setOpen(false)}
+                  className="block border-b border-line/60 py-2 text-sm text-ink"
+                >
+                  Mon compte
+                </Link>
+                <div className="border-b border-line/60 py-3">
+                  <UserAccountMenu user={user} onUserChange={setUser} theme="light" />
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/inscription"
+                  onClick={() => setOpen(false)}
+                  className="block border-b border-line/60 py-2 text-sm text-ink"
+                >
+                  {t.nav.createAccount}
+                </Link>
+                <Link
+                  href="/connexion?role=user"
+                  onClick={() => setOpen(false)}
+                  className="btn-primary mt-4 w-full text-center"
+                >
+                  {t.nav.login}
+                </Link>
+              </>
+            )}
             <LanguageSwitcher className="mt-4" compact />
           </nav>
         )}

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import MarketplaceListingCard from "@/components/marketplace/MarketplaceListingCard";
+import MarketplacePublishPrompt from "@/components/marketplace/MarketplacePublishPrompt";
 import {
   MARKETPLACE_CATEGORIES,
   MARKETPLACE_LISTINGS,
@@ -35,6 +36,8 @@ export default function MarketplaceBrowse() {
 
   return (
     <div>
+      <MarketplacePublishPrompt />
+
       <div className="mb-6 rounded-xl border border-line bg-white p-4 shadow-card sm:p-5">
         <div className="relative mb-4">
           <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-subtle" />

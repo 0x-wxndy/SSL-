@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { PARENT_SECTIONS } from "@/lib/constants";
 import Logo from "@/components/brand/Logo";
+import UserAccountMenu from "@/components/auth/UserAccountMenu";
 import type { Session } from "@/lib/auth";
 
 const navIcons: Record<string, React.ReactNode> = {
@@ -48,42 +49,39 @@ export default function ParentShell({ children }: { children: React.ReactNode })
     router.refresh();
   }
 
-  const initials = user?.name
-    ?.split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
   return (
     <div className="min-h-screen bg-surface-base">
-      <header className="sticky top-0 z-50 flex h-14 items-center justify-between bg-brand-forest px-4 text-white sm:px-6">
-        <div className="flex items-center gap-3">
-          <Link href="/parent" className="rounded-lg bg-white/95 px-2 py-1">
-            <Logo href={undefined} imageClassName="w-[72px] sm:w-[80px]" />
-          </Link>
-          <span className="hidden text-xs text-white/80 sm:inline">Espace Parent</span>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-3">
-          {user && (
-            <div className="hidden items-center gap-2 md:flex">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-xs font-bold">
-                {initials}
-              </span>
-              <span className="max-w-[140px] truncate text-xs text-white/85">{user.name}</span>
+      <header className="sticky top-0 z-50 border-b border-brand-deep/25 bg-brand-forest shadow-sm">
+        <div className="flex min-h-[4.75rem] items-center justify-between gap-4 px-4 py-3 text-white sm:min-h-20 sm:px-6">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <div className="shrink-0 rounded-xl bg-white px-3 py-2.5 shadow-sm sm:px-4 sm:py-3">
+              <Logo
+                href="/parent"
+                imageClassName="h-11 w-auto max-w-[108px] sm:h-[3.25rem] sm:max-w-[128px]"
+              />
             </div>
-          )}
-          <button
-            onClick={logout}
-            className="text-xs font-semibold text-white/90 underline-offset-2 hover:underline"
-          >
-            Déconnexion
-          </button>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/55">
+                SSL+++
+              </p>
+              <p className="truncate font-display text-sm font-bold sm:text-base">Espace Parent</p>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            {user && <UserAccountMenu user={user} onUserChange={setUser} theme="dark" />}
+            <button
+              onClick={logout}
+              className="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-white/90 transition-colors hover:bg-white/10 sm:px-3"
+            >
+              Déconnexion
+            </button>
+          </div>
         </div>
       </header>
 
       <nav className="overflow-x-auto border-b border-brand-deep/30 bg-brand-deep">
-        <div className="mx-auto flex min-w-max gap-0.5 px-3 py-1 sm:min-w-0 sm:max-w-4xl">
+        <div className="mx-auto flex min-w-max gap-0.5 px-3 py-1.5 sm:min-w-0 sm:max-w-4xl">
           {PARENT_SECTIONS.map((s) => {
             const active = isNavActive(pathname, s.href);
             return (

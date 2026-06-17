@@ -32,16 +32,20 @@ export default function PublicFooter() {
   ];
 
   return (
-    <footer className="mt-auto border-t border-line bg-white">
+    <footer className="mt-auto border-t border-line bg-surface-2">
       <div className="site-wrap py-12 sm:py-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-12">
-          <div className="max-w-sm">
-            <Logo href="/" imageClassName="h-[64px] w-auto max-w-[120px] object-contain" />
-            <p className="mt-4 text-sm leading-relaxed text-ink-muted">{t.footer.description}</p>
-            <p className="mt-3 text-xs font-medium text-ink-subtle">{ESTABLISHMENT.name}</p>
+        <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr_1fr] lg:items-start lg:gap-12">
+          <div className="flex gap-5 sm:gap-6">
+            <div className="shrink-0 pt-0.5">
+              <Logo href="/" imageClassName="h-[56px] w-auto max-w-[108px] object-contain sm:h-[64px] sm:max-w-[120px]" />
+            </div>
+            <div className="min-w-0 pt-1">
+              <p className="text-sm leading-relaxed text-ink-muted">{t.footer.description}</p>
+              <p className="mt-2.5 text-xs font-medium text-ink-subtle">{ESTABLISHMENT.name}</p>
+            </div>
           </div>
 
-          <div>
+          <div className="lg:pt-1">
             <p className="section-label mb-4">{t.footer.navigation}</p>
             <ul className="space-y-2.5">
               {navLinks.map(({ href, label }) => (
@@ -52,7 +56,7 @@ export default function PublicFooter() {
             </ul>
           </div>
 
-          <div>
+          <div className="lg:pt-1">
             <p className="section-label mb-4">{t.footer.account}</p>
             <ul className="space-y-2.5">
               {accountLinks.map(({ href, label }) => (

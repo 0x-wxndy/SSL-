@@ -25,11 +25,9 @@ export async function POST(request: Request) {
   const redirect =
     portal === "parent"
       ? "/parent"
-      : portal === "marketplace"
+      : portal === "marketplace" || portal === "user"
         ? "/marketplace/compte"
-        : portal === "user"
-          ? "/marketplace"
-          : "/admin";
+        : "/admin";
   const response = NextResponse.json({ ok: true, redirect, user: session });
   response.cookies.set(SESSION_COOKIE, JSON.stringify(session), {
     httpOnly: true,

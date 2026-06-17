@@ -1,4 +1,12 @@
-export type UserRole = "parent" | "admin" | "admin2" | "staff" | "provider" | "user";
+export type UserRole =
+  | "parent"
+  | "admin"
+  | "admin2"
+  | "staff"
+  | "supply_manager"
+  | "marketplace_admin"
+  | "provider"
+  | "user";
 
 export type AuthPortal = "parent" | "admin" | "marketplace" | "user";
 
@@ -7,6 +15,9 @@ export type Session = {
   name: string;
   role: UserRole;
   providerId?: string;
+  phone?: string;
+  bio?: string;
+  avatarUrl?: string;
 };
 
 export const SESSION_COOKIE = "ssl-session";
@@ -43,6 +54,20 @@ export const DEMO_USERS = [
     portal: "admin" as const,
   },
   {
+    email: "supply@ssl.dz",
+    password: "supply123",
+    role: "supply_manager" as const,
+    name: "M. Djelloul Karim",
+    portal: "admin" as const,
+  },
+  {
+    email: "marketplace@ssl.dz",
+    password: "market123",
+    role: "marketplace_admin" as const,
+    name: "Mme Boudiaf Leila",
+    portal: "admin" as const,
+  },
+  {
     email: "prestataire@ssl.dz",
     password: "market123",
     role: "provider" as const,
@@ -56,10 +81,17 @@ export const DEMO_USERS = [
     role: "user" as const,
     name: "Karim B.",
     portal: "user" as const,
+    providerId: "user-001",
   },
 ];
 
-const ADMIN_ROLES: UserRole[] = ["admin", "admin2", "staff"];
+const ADMIN_ROLES: UserRole[] = [
+  "admin",
+  "admin2",
+  "staff",
+  "supply_manager",
+  "marketplace_admin",
+];
 
 export function verifyCredentials(
   email: string,
@@ -92,11 +124,16 @@ export function canAccessParent(session: Session | null): boolean {
 }
 
 export function canAccessMarketplace(session: Session | null): boolean {
-  return session?.role === "provider";
+  return session?.role === "provider" || session?.role === "user";
 }
 
 export function canAccessUser(session: Session | null): boolean {
   return session?.role === "user";
+}
+
+export function marketplacePublisherId(session: Session | null): string | undefined {
+  if (!session) return undefined;
+  return session.providerId;
 }
 
 export function canAccessAdmin(session: Session | null): boolean {
@@ -107,8 +144,10 @@ export function roleLabel(role: UserRole): string {
   const labels: Record<UserRole, string> = {
     parent: "Parent",
     admin: "Admin Principal",
-    admin2: "Admin Secondaire",
-    staff: "Staff",
+    admin2: "Responsable pédagogique",
+    staff: "Staff opérationnel",
+    supply_manager: "Resp. approvisionnement",
+    marketplace_admin: "Admin marketplace",
     provider: "Prestataire",
     user: "Utilisateur",
   };

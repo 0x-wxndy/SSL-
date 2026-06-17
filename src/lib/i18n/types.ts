@@ -36,6 +36,7 @@ export type Messages = {
     servicesDescription: string;
     commitmentLabel: string;
     commitmentTitle: string;
+    commitmentLead: string;
     commitmentItems: [string, string][];
     aboutLabel: string;
     aboutTitle: string;

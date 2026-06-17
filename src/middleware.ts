@@ -5,7 +5,6 @@ import {
   canAccessAdmin,
   canAccessMarketplace,
   canAccessParent,
-  canAccessUser,
   parseSession,
 } from "@/lib/auth";
 
@@ -28,8 +27,9 @@ export function middleware(request: NextRequest) {
   if (pathname === "/connexion" || pathname === "/connexion/") {
     if (canAccessParent(session)) return NextResponse.redirect(new URL("/parent", request.url));
     if (canAccessAdmin(session)) return NextResponse.redirect(new URL("/admin", request.url));
-    if (canAccessMarketplace(session)) return NextResponse.redirect(new URL("/marketplace/compte", request.url));
-    if (canAccessUser(session)) return NextResponse.redirect(new URL("/marketplace", request.url));
+    if (canAccessMarketplace(session)) {
+      return NextResponse.redirect(new URL("/marketplace/compte", request.url));
+    }
   }
 
   if (pathname.startsWith("/connexion/parent") && canAccessParent(session)) {
@@ -63,7 +63,7 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/marketplace/compte") || pathname.startsWith("/marketplace/publier")) {
     if (!canAccessMarketplace(session)) {
       const login = new URL("/connexion", request.url);
-      login.searchParams.set("role", "provider");
+      login.searchParams.set("role", "user");
       login.searchParams.set("from", pathname);
       return NextResponse.redirect(login);
     }

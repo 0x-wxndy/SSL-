@@ -26,7 +26,7 @@ const PORTALS: PortalConfig[] = [
     portal: "user",
     label: "Utilisateur",
     title: "Connexion — Utilisateur",
-    subtitle: "Accès pour parcourir la marketplace et contacter des prestataires",
+    subtitle: "Parcourez la marketplace, publiez des annonces et gérez votre profil",
     demoAccounts: [{ label: "Utilisateur — Karim B.", email: "user@ssl.dz", password: "user123" }],
   },
   {

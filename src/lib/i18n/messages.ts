@@ -131,23 +131,25 @@ export const messages: Record<Locale, Messages> = {
       servicesDescription:
         "Parcourez nos domaines d'intervention. Cliquez sur un service pour en savoir plus — les prestations disponibles ouvrent leur espace dédié, les autres affichent une page « bientôt disponible ».",
       commitmentLabel: "Notre engagement",
-      commitmentTitle: "Proximité, dignité et accès aux soins sociaux",
+      commitmentTitle: "Un accompagnement humain, encadré et transparent",
+      commitmentLead:
+        "Au-delà de la mise en relation, nous construisons un cadre de confiance : orientation claire, prestataires identifiés et suivi accessible à chaque étape.",
       commitmentItems: [
         [
-          "Aide sociale intégrée",
-          "une plateforme unique pour orienter et coordonner les besoins des bénéficiaires et de leurs proches.",
+          "Orientation personnalisée",
+          "Nous vous aidons à identifier la prestation adaptée et à coordonner les démarches, sans multiplier les interlocuteurs.",
         ],
         [
-          "Professionnels encadrés",
-          "équipes formées, identifiées et supervisées pour chaque type de prestation.",
+          "Prestataires de confiance",
+          "Des équipes identifiées, formées et encadrées pour garantir sécurité et qualité de service.",
         ],
         [
-          "Suivi numérique",
-          "espaces dédiés pour le planning, la communication et le suivi administratif.",
+          "Suivi transparent",
+          "Planning, messages et dossiers accessibles en ligne pour rester informé à chaque étape.",
         ],
         [
-          "Accessibilité linguistique",
-          "français, arabe et anglais pour rester au plus près des personnes accompagnées.",
+          "Ouvert à toutes les langues",
+          "Interface et accompagnement en français, arabe et anglais pour rester proche de chaque famille.",
         ],
       ],
       aboutLabel: "À propos",
@@ -246,23 +248,25 @@ export const messages: Record<Locale, Messages> = {
       servicesDescription:
         "تصفّح مجالات تدخّلنا. انقر على خدمة لمعرفة المزيد — الخدمات المتاحة تفتح مساحتها الخاصة، والأخرى تعرض صفحة «قريباً».",
       commitmentLabel: "التزامنا",
-      commitmentTitle: "القرب والكرامة والوصول إلى الرعاية الاجتماعية",
+      commitmentTitle: "مرافقة إنسانية، منظّمة وشفافة",
+      commitmentLead:
+        "أبعد من مجرد الربط بين الأطراف، نبني إطار ثقة: توجيه واضح، مقدّمون معرّفون ومتابعة متاحة في كل مرحلة.",
       commitmentItems: [
         [
-          "مساعدة اجتماعية متكاملة",
-          "منصة واحدة لتوجيه وتنسيق احتياجات المستفيدين وأقاربهم.",
+          "توجيه شخصي",
+          "نساعدكم على تحديد الخدمة المناسبة وتنسيق الإجراءات دون تعدد جهات الاتصال.",
         ],
         [
-          "محترفون تحت الإشراف",
-          "فرق مؤهّلة ومعرّفة ومتابَعة لكل نوع من الخدمات.",
+          "مقدّمون موثوقون",
+          "فرق معرّفة ومؤهّلة وتحت الإشراف لضمان الأمان وجودة الخدمة.",
         ],
         [
-          "متابعة رقمية",
-          "مساحات مخصّصة للجدولة والتواصل والمتابعة الإدارية.",
+          "متابعة شفافة",
+          "جدولة ورسائل وملفات متاحة عبر الإنترنت للبقاء على اطلاع في كل خطوة.",
         ],
         [
-          "إتاحة لغوية",
-          "الفرنسية والعربية والإنجليزية للبقاء قريبين من الأشخاص المرافَقين.",
+          "متاح بكل اللغات",
+          "واجهة ومرافقة بالفرنسية والعربية والإنجليزية للبقاء قريبين من كل عائلة.",
         ],
       ],
       aboutLabel: "من نحن",
@@ -361,23 +365,25 @@ export const messages: Record<Locale, Messages> = {
       servicesDescription:
         "Browse our areas of support. Click a service to learn more — available services open their dedicated space, others show a “coming soon” page.",
       commitmentLabel: "Our commitment",
-      commitmentTitle: "Proximity, dignity and access to social care",
+      commitmentTitle: "Human support that is supervised and transparent",
+      commitmentLead:
+        "Beyond connecting people, we build a framework of trust: clear guidance, identified providers and accessible follow-up at every step.",
       commitmentItems: [
         [
-          "Integrated social support",
-          "one platform to guide and coordinate the needs of beneficiaries and their families.",
+          "Personal guidance",
+          "We help you find the right service and coordinate steps without juggling multiple contacts.",
         ],
         [
-          "Supervised professionals",
-          "trained, identified and supervised teams for each type of service.",
+          "Trusted providers",
+          "Identified, trained and supervised teams to ensure safety and quality of care.",
         ],
         [
-          "Digital follow-up",
-          "dedicated spaces for scheduling, communication and administrative tracking.",
+          "Transparent follow-up",
+          "Schedules, messages and records available online so you stay informed at every stage.",
         ],
         [
-          "Language accessibility",
-          "French, Arabic and English to stay close to the people we support.",
+          "Open to all languages",
+          "Interface and support in French, Arabic and English to stay close to every family.",
         ],
       ],
       aboutLabel: "About us",
