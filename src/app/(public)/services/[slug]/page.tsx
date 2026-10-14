@@ -23,8 +23,8 @@ export default function ServiceComingSoonPage({ params }: Props) {
 
       <div className="border border-line bg-white">
         <div className="px-6 py-8 sm:px-10 sm:py-10 border-b border-line bg-surface-2">
-          <span className="text-3xl mb-4 block" aria-hidden>
-            {service.icon}
+          <span className="mb-4 inline-block rounded-md bg-yellow px-3 py-1 text-sm font-bold text-ink">
+            {service.brand}
           </span>
           <p className="section-label mb-2">Service · Bientôt disponible</p>
           <h1 className="font-display text-2xl sm:text-3xl text-ink mb-2">{service.title}</h1>

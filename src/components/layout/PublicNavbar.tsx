@@ -9,8 +9,10 @@ import UserAccountMenu from "@/components/auth/UserAccountMenu";
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import ServicesDropdown, { ServicesMobileList } from "@/components/layout/ServicesDropdown";
 import type { Session } from "@/lib/auth";
-import { canAccessMarketplace } from "@/lib/auth";
+import { canAccessAlzheimer, canAccessMarketplace, canAccessParent } from "@/lib/auth";
+import { FEATURES } from "@/lib/constants";
 import { useLocale } from "@/lib/i18n/locale-context";
+import { getHomeLanding } from "@/lib/home-landing";
 
 function navLinkClass(active: boolean) {
   return clsx(
@@ -23,13 +25,30 @@ function navLinkClass(active: boolean) {
 
 export default function PublicNavbar() {
   const pathname = usePathname();
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
+  const L = getHomeLanding(locale);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [user, setUser] = useState<Session | null>(null);
-  const onServicePage = pathname.startsWith("/services/");
+  const onSchoolService = pathname.startsWith("/services/accompagnement-scolaire");
+  const onAlzheimerService = pathname.startsWith("/services/activites-alzheimer");
+  const onHomeCareService = pathname.startsWith("/services/aide-sociale-domicile");
   const onMarketplace = pathname.startsWith("/marketplace");
   const marketplaceMember = user && canAccessMarketplace(user);
+  const parentMember = user && canAccessParent(user);
+  const alzheimerMember = user && canAccessAlzheimer(user);
+  const showMySpace = onSchoolService || onAlzheimerService || onHomeCareService;
+  const spaceHref = onSchoolService
+    ? parentMember
+      ? "/parent"
+      : "/connexion?role=parent"
+    : onAlzheimerService
+      ? alzheimerMember
+        ? "/alzheimer"
+        : "/connexion?role=alzheimer"
+      : marketplaceMember
+        ? "/marketplace/compte"
+        : "/connexion?role=user";
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -38,137 +57,144 @@ export default function PublicNavbar() {
       .catch(() => setUser(null));
   }, [pathname]);
 
-  const links = [
-    { href: "/", label: t.nav.home },
-    { href: "/contact", label: t.nav.contact },
-  ];
-
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur-sm">
-      <div className="site-wrap">
-        <div className="flex min-h-[96px] items-center justify-between gap-4 py-3 sm:min-h-[104px] sm:py-4">
-          <Logo
-            priority
-            imageClassName="h-[72px] w-auto max-w-[120px] object-contain sm:h-[80px] sm:max-w-[136px]"
-          />
-
-          <nav className="hidden items-center gap-6 md:flex">
-            {links.map(({ href, label }) => (
-              <Link key={href} href={href} className={navLinkClass(pathname === href)}>
-                {label}
-              </Link>
-            ))}
-            <ServicesDropdown
-              open={servicesOpen}
-              onToggle={() => setServicesOpen((v) => !v)}
-              onClose={() => setServicesOpen(false)}
-              active={onServicePage}
+    <header className="sticky top-0 z-50">
+      <div className="border-b border-line bg-white/95 backdrop-blur-sm">
+        <div className="site-wrap">
+          <div className="flex min-h-[88px] items-center justify-between gap-3 py-2.5 sm:min-h-[104px] sm:py-3">
+            <Logo
+              priority
+              imageClassName="h-[72px] w-auto max-w-[72px] object-contain sm:h-[88px] sm:max-w-[88px]"
             />
-            <Link href="/marketplace" className={navLinkClass(onMarketplace)}>
-              {t.nav.marketplace}
-            </Link>
-          </nav>
 
-          <div className="hidden items-center gap-2 md:flex">
-            {marketplaceMember ? (
-              <>
-                <Link
-                  href="/marketplace/compte"
-                  className="rounded-full px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
-                >
-                  Mon compte
+            <nav className="hidden items-center gap-5 lg:flex">
+              <Link href="/" className={navLinkClass(pathname === "/")}>
+                {t.nav.home}
+              </Link>
+              <ServicesDropdown
+                open={servicesOpen}
+                onToggle={() => setServicesOpen((v) => !v)}
+                onClose={() => setServicesOpen(false)}
+                active={onSchoolService || onAlzheimerService || onHomeCareService}
+              />
+              {FEATURES.marketplace && (
+                <Link href="/marketplace" className={navLinkClass(onMarketplace)}>
+                  {t.nav.marketplace}
                 </Link>
+              )}
+              <Link
+                href="/notre-fonctionnement"
+                className={navLinkClass(pathname.startsWith("/notre-fonctionnement"))}
+              >
+                {t.nav.howItWorks}
+              </Link>
+              <Link href="/contact" className={navLinkClass(pathname === "/contact")}>
+                {t.nav.contact}
+              </Link>
+            </nav>
+
+            <div className="hidden items-center gap-2 lg:flex">
+              {showMySpace && (
+                <Link
+                  href={spaceHref}
+                  className="rounded-full bg-brand-forest px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-deep"
+                >
+                  {L.mySpace}
+                </Link>
+              )}
+              {(marketplaceMember || parentMember) && user ? (
                 <UserAccountMenu user={user} onUserChange={setUser} theme="light" />
-              </>
-            ) : (
-              <>
+              ) : pathname.startsWith("/notre-fonctionnement") ? null : (
                 <Link
-                  href="/inscription"
-                  className="rounded-full px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
+                  href="/rejoindre"
+                  className="rounded-full border border-brand-forest px-3 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
                 >
-                  {t.nav.createAccount}
+                  {L.workWithUs}
                 </Link>
-                <Link
-                  href="/connexion?role=user"
-                  className="rounded-full border border-brand-forest px-4 py-1.5 text-sm font-semibold text-brand-forest transition-colors hover:bg-brand-light"
-                >
-                  {t.nav.login}
-                </Link>
-              </>
-            )}
-            <LanguageSwitcher />
+              )}
+              <LanguageSwitcher />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              className="px-2 py-1 text-sm font-semibold text-brand-forest lg:hidden"
+              aria-expanded={open}
+            >
+              {open ? t.nav.close : t.nav.menu}
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            className="px-2 py-1 text-sm font-semibold text-brand-forest md:hidden"
-            aria-expanded={open}
-          >
-            {open ? t.nav.close : t.nav.menu}
-          </button>
-        </div>
-
-        {open && (
-          <nav className="border-t border-line pb-4 pt-3 md:hidden">
-            {links.map(({ href, label }) => (
+          {open && (
+            <nav className="border-t border-line pb-4 pt-3 lg:hidden">
               <Link
-                key={href}
-                href={href}
+                href="/"
                 onClick={() => setOpen(false)}
                 className={clsx(
                   "block border-b border-line/60 py-2 text-sm",
-                  pathname === href ? "font-semibold text-brand-forest" : "text-ink"
+                  pathname === "/" ? "font-semibold text-brand-forest" : "text-ink"
                 )}
               >
-                {label}
+                {t.nav.home}
               </Link>
-            ))}
-            <ServicesMobileList onClose={() => setOpen(false)} />
-            <Link
-              href="/marketplace"
-              onClick={() => setOpen(false)}
-              className={clsx(
-                "block border-b border-line/60 py-2 text-sm",
-                onMarketplace ? "font-semibold text-brand-forest" : "text-ink"
-              )}
-            >
-              {t.nav.marketplace}
-            </Link>
-            {marketplaceMember ? (
-              <>
+              <ServicesMobileList onClose={() => setOpen(false)} />
+              {FEATURES.marketplace && (
                 <Link
-                  href="/marketplace/compte"
+                  href="/marketplace"
                   onClick={() => setOpen(false)}
-                  className="block border-b border-line/60 py-2 text-sm text-ink"
+                  className={clsx(
+                    "block border-b border-line/60 py-2 text-sm",
+                    onMarketplace ? "font-semibold text-brand-forest" : "text-ink"
+                  )}
                 >
-                  Mon compte
+                  {t.nav.marketplace}
                 </Link>
+              )}
+              <Link
+                href="/notre-fonctionnement"
+                onClick={() => setOpen(false)}
+                className={clsx(
+                  "block border-b border-line/60 py-2 text-sm",
+                  pathname.startsWith("/notre-fonctionnement")
+                    ? "font-semibold text-brand-forest"
+                    : "text-ink"
+                )}
+              >
+                {t.nav.howItWorks}
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setOpen(false)}
+                className="block border-b border-line/60 py-2 text-sm text-ink"
+              >
+                {t.nav.contact}
+              </Link>
+              {showMySpace && (
+                <Link
+                  href={spaceHref}
+                  onClick={() => setOpen(false)}
+                  className="btn-primary mt-3 w-full text-center"
+                >
+                  {L.mySpace}
+                </Link>
+              )}
+              {(marketplaceMember || parentMember) && user ? (
                 <div className="border-b border-line/60 py-3">
                   <UserAccountMenu user={user} onUserChange={setUser} theme="light" />
                 </div>
-              </>
-            ) : (
-              <>
+              ) : pathname.startsWith("/notre-fonctionnement") ? null : (
                 <Link
-                  href="/inscription"
+                  href="/rejoindre"
                   onClick={() => setOpen(false)}
-                  className="block border-b border-line/60 py-2 text-sm text-ink"
+                  className="mt-3 block text-sm font-semibold text-brand-forest"
                 >
-                  {t.nav.createAccount}
+                  {L.workWithUs}
                 </Link>
-                <Link
-                  href="/connexion?role=user"
-                  onClick={() => setOpen(false)}
-                  className="btn-primary mt-4 w-full text-center"
-                >
-                  {t.nav.login}
-                </Link>
-              </>
-            )}
-            <LanguageSwitcher className="mt-4" compact />
-          </nav>
-        )}
+              )}
+              <LanguageSwitcher className="mt-4" compact />
+            </nav>
+          )}
+        </div>
       </div>
     </header>
   );

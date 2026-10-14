@@ -12,6 +12,8 @@ export type Messages = {
     contact: string;
     services: string;
     marketplace: string;
+    howItWorks: string;
+    careers: string;
     createAccount: string;
     login: string;
     menu: string;
@@ -34,6 +36,12 @@ export type Messages = {
     servicesLabel: string;
     servicesTitle: string;
     servicesDescription: string;
+    voletsLabel: string;
+    voletsTitle: string;
+    volets: Record<
+      "scolaire" | "domicile" | "alzheimer",
+      { brand: string; title: string; excerpt: string; cta: string }
+    >;
     commitmentLabel: string;
     commitmentTitle: string;
     commitmentLead: string;
@@ -64,7 +72,6 @@ export type Messages = {
       message: string;
       messagePlaceholder: string;
       submit: string;
-      mockNote: string;
       successTitle: string;
       successMessage: string;
       infoPhone: string;
@@ -80,6 +87,8 @@ export type Messages = {
     home: string;
     ourServices: string;
     marketplace: string;
+    howItWorks: string;
+    careers: string;
     contact: string;
     createAccount: string;
     login: string;

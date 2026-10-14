@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function ProviderLoginRedirect() {
-  redirect("/connexion?role=provider");
+export default function MarketplaceLoginRedirect() {
+  redirect("/connexion?role=user");
 }

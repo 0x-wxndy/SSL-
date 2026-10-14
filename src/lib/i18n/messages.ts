@@ -3,99 +3,63 @@ import type { Locale, Messages } from "./types";
 const serviceItemsFr = {
   "accompagnement-scolaire": {
     title: "Accompagnement scolaire",
-    subtitle: "Garde & éducation · 6–18 ans",
+    subtitle: "SSL+ · Secteur public",
     description:
-      "Garderie, sorties d'école, soutien scolaire et suivi parental dans un cadre sécurisé, trilingue et adapté à votre rythme familial.",
+      "Site d'accueil à proximité des écoles publiques : gardiennage, restauration, ateliers de révision et bien-être de vos enfants.",
   },
-  "services-domicile": {
-    title: "Services à domicile",
-    subtitle: "Ménage & entretien du foyer",
+  "aide-sociale-domicile": {
+    title: "Aide sociale",
+    subtitle: "SSL++ · À domicile",
     description:
-      "Nettoyage, repassage, entretien courant et aide à l'organisation du quotidien à domicile, par des professionnels de confiance.",
-  },
-  "accompagnement-seniors": {
-    title: "Accompagnement des seniors",
-    subtitle: "Aide et présence au quotidien",
-    description:
-      "Accompagnement des personnes âgées : aide à la mobilité, courses, repas, compagnie et coordination avec les proches.",
+      "Aide formée pour vos proches en situation de handicap, invalidité ou dépendance — 7j/7 et 24h/24.",
   },
   "activites-alzheimer": {
-    title: "Activités Alzheimer",
-    subtitle: "Stimulation & bien-être",
+    title: "Ateliers Alzheimer",
+    subtitle: "SSL+++ · Premiers stades",
     description:
-      "Ateliers de stimulation cognitive, activités adaptées et programmes d'accompagnement pour les personnes atteintes d'Alzheimer.",
-  },
-  "aide-familiale": {
-    title: "Aide familiale",
-    subtitle: "Soutien aux familles",
-    description:
-      "Conciergerie du quotidien, garde ponctuelle, coordination des besoins du foyer et services sur mesure selon votre situation.",
+      "Stimulation cognitive et maintien de la vie sociale selon des protocoles médicaux encadrés.",
   },
 };
 
 const serviceItemsAr = {
   "accompagnement-scolaire": {
     title: "مرافقة مدرسية",
-    subtitle: "رعاية وتعليم · 6–18 سنة",
+    subtitle: "SSL+ · القطاع العام",
     description:
-      "حضانة، خروج من المدرسة، دعم دراسي ومتابعة أسرية في إطار آمن ومتعدد اللغات ومناسب لإيقاع عائلتكم.",
+      "موقع استقبال قريب من المدارس العمومية: رعاية، تغذية، ورشات مراجعة ورفاهية أطفالكم.",
   },
-  "services-domicile": {
-    title: "خدمات منزلية",
-    subtitle: "تنظيف وصيانة المنزل",
+  "aide-sociale-domicile": {
+    title: "مساعدة اجتماعية",
+    subtitle: "SSL++ · في المنزل",
     description:
-      "تنظيف، كيّ، صيانة يومية ومساعدة في تنظيم الحياة اليومية في المنزل، على يد محترفين موثوقين.",
-  },
-  "accompagnement-seniors": {
-    title: "مرافقة كبار السن",
-    subtitle: "مساعدة وحضور يومي",
-    description:
-      "مرافقة كبار السن: مساعدة في التنقل، التسوق، الوجبات، المرافقة والتنسيق مع الأقارب.",
+      "مساعدة مؤهّلة لأقاربكم في وضعية إعاقة أو عجز أو اعتماد — 7/7 و24/24.",
   },
   "activites-alzheimer": {
-    title: "أنشطة الزهاimer",
-    subtitle: "تحفيز ورفاهية",
+    title: "ورشات Alzheimer",
+    subtitle: "SSL+++ · المراحل الأولى",
     description:
-      "ورش تحفيز معرفي، أنشطة ملائمة وبرامج مرافقة للأشخاص المصابين بمرض Alzheimer.",
-  },
-  "aide-familiale": {
-    title: "مساعدة عائلية",
-    subtitle: "دعم للعائلات",
-    description:
-      "خدمات يومية، رعاية مؤقتة، تنسيق احتياجات الأسرة وخدمات مخصصة حسب وضعكم.",
+      "تحفيز معرفي والحفاظ على الحياة الاجتماعية وفق بروتوكولات طبية معتمدة.",
   },
 };
 
 const serviceItemsEn = {
   "accompagnement-scolaire": {
     title: "School support",
-    subtitle: "Care & education · ages 6–18",
+    subtitle: "SSL+ · Public sector",
     description:
-      "Daycare, school pickup, tutoring and parental follow-up in a safe, trilingual setting adapted to your family rhythm.",
+      "Welcome site near public schools: childcare, meals, revision workshops and children's wellbeing.",
   },
-  "services-domicile": {
-    title: "Home services",
-    subtitle: "Cleaning & household care",
+  "aide-sociale-domicile": {
+    title: "Home social support",
+    subtitle: "SSL++ · At home",
     description:
-      "Cleaning, ironing, routine maintenance and help organizing daily life at home, by trusted professionals.",
-  },
-  "accompagnement-seniors": {
-    title: "Senior support",
-    subtitle: "Daily help and companionship",
-    description:
-      "Support for older adults: mobility help, errands, meals, companionship and coordination with relatives.",
+      "Trained help for relatives with disability, incapacity or dependency — 7 days a week, 24/7.",
   },
   "activites-alzheimer": {
-    title: "Alzheimer activities",
-    subtitle: "Stimulation & wellbeing",
+    title: "Alzheimer workshops",
+    subtitle: "SSL+++ · Early stages",
     description:
-      "Cognitive stimulation workshops, adapted activities and support programs for people with Alzheimer's.",
-  },
-  "aide-familiale": {
-    title: "Family support",
-    subtitle: "Help for families",
-    description:
-      "Everyday concierge, occasional childcare, coordinating household needs and tailored services for your situation.",
+      "Cognitive stimulation and social life maintained through supervised medical protocols.",
   },
 };
 
@@ -103,9 +67,11 @@ export const messages: Record<Locale, Messages> = {
   fr: {
     nav: {
       home: "Accueil",
-      contact: "Contact",
-      services: "Services",
+      contact: "Nous contacter",
+      services: "Nos services",
       marketplace: "Marketplace",
+      howItWorks: "Notre fonctionnement",
+      careers: "Nous rejoindre",
       createAccount: "Créer un compte",
       login: "Connexion",
       menu: "Menu",
@@ -129,7 +95,32 @@ export const messages: Record<Locale, Messages> = {
       servicesLabel: "Nos services",
       servicesTitle: "Des réponses sociales adaptées à chaque besoin",
       servicesDescription:
-        "Parcourez nos domaines d'intervention. Cliquez sur un service pour en savoir plus — les prestations disponibles ouvrent leur espace dédié, les autres affichent une page « bientôt disponible ».",
+        "Cliquez sur un volet pour accéder à sa page dédiée. L'accompagnement scolaire est disponible ; les deux autres volets ouvrent bientôt.",
+      voletsLabel: "Prestations SSL",
+      voletsTitle: "Trois volets pour structurer l'aide sociale",
+      volets: {
+        scolaire: {
+          brand: "SSL+",
+          title: "Enfants scolarisés — secteur public",
+          excerpt:
+            "Parents actifs : un site d'accueil à proximité des écoles publiques pour le gardiennage, la restauration équilibrée, les ateliers de révision et le bien-être de vos enfants.",
+          cta: "Découvrir le volet",
+        },
+        domicile: {
+          brand: "SSL++",
+          title: "Aide sociale",
+          excerpt:
+            "Une aide formée et sélectionnée pour vos proches en situation de handicap, d'invalidité ou de dépendance — disponible 7j/7 et 24h/24.",
+          cta: "Découvrir le volet",
+        },
+        alzheimer: {
+          brand: "SSL+++",
+          title: "Ateliers Alzheimer",
+          excerpt:
+            "Stimulation cognitive et maintien de la vie sociale aux premiers stades, selon des protocoles établis par des professionnels de santé.",
+          cta: "Découvrir le volet",
+        },
+      },
       commitmentLabel: "Notre engagement",
       commitmentTitle: "Un accompagnement humain, encadré et transparent",
       commitmentLead:
@@ -167,7 +158,7 @@ export const messages: Record<Locale, Messages> = {
         ],
         [
           "Unifier l'offre et la demande",
-          "Nos espaces dédiés et la marketplace rapprochent offreurs et demandeurs sur un même référentiel, partout en Algérie.",
+          "Nos espaces dédiés rapprochent les familles et les équipes SSL+++ sur un même cadre, partout en Algérie.",
         ],
       ],
       contactLabel: "Contact",
@@ -193,7 +184,6 @@ export const messages: Record<Locale, Messages> = {
         message: "Message",
         messagePlaceholder: "Décrivez votre besoin ou votre question…",
         submit: "Envoyer le message",
-        mockNote: "Démonstration — aucun envoi réel pour le moment.",
         successTitle: "Message enregistré",
         successMessage:
           "Merci pour votre message. Notre équipe vous recontactera sous 48 h ouvrées (simulation).",
@@ -211,6 +201,8 @@ export const messages: Record<Locale, Messages> = {
       home: "Accueil",
       ourServices: "Nos services",
       marketplace: "Marketplace",
+      howItWorks: "Notre fonctionnement",
+      careers: "Nous rejoindre",
       contact: "Contact",
       createAccount: "Créer un compte",
       login: "Connexion",
@@ -221,8 +213,10 @@ export const messages: Record<Locale, Messages> = {
     nav: {
       home: "الرئيسية",
       contact: "اتصل بنا",
-      services: "الخدمات",
+      services: "خدماتنا",
       marketplace: "السوق",
+      howItWorks: "كيف نعمل",
+      careers: "انضم إلينا",
       createAccount: "إنشاء حساب",
       login: "تسجيل الدخول",
       menu: "القائمة",
@@ -246,7 +240,32 @@ export const messages: Record<Locale, Messages> = {
       servicesLabel: "خدماتنا",
       servicesTitle: "استجابات اجتماعية تناسب كل احتياج",
       servicesDescription:
-        "تصفّح مجالات تدخّلنا. انقر على خدمة لمعرفة المزيد — الخدمات المتاحة تفتح مساحتها الخاصة، والأخرى تعرض صفحة «قريباً».",
+        "انقر على قطب للوصول إلى صفحته المخصّصة. المرافقة المدرسية متاحة؛ القطبان الآخران قريباً.",
+      voletsLabel: "خدمات SSL",
+      voletsTitle: "ثلاثة أقطاب لتنظيم المساعدة الاجتماعية",
+      volets: {
+        scolaire: {
+          brand: "SSL+",
+          title: "التلاميذ — القطاع العام",
+          excerpt:
+            "آباء عاملون: موقع استقبال قريب من المدارس العمومية للرعاية، التغذية المتوازنة، ورشات المراجعة ورفاهية أطفالكم.",
+          cta: "اكتشف القطب",
+        },
+        domicile: {
+          brand: "SSL++",
+          title: "مساعدة اجتماعية",
+          excerpt:
+            "مساعدة مؤهّلة ومختارة لأقاربكم في وضعية إعاقة أو عجز أو اعتماد — متاحة 7/7 و24/24.",
+          cta: "اكتشف القطب",
+        },
+        alzheimer: {
+          brand: "SSL+++",
+          title: "ورشات Alzheimer",
+          excerpt:
+            "تحفيز معرفي والحفاظ على الحياة الاجتماعية في المراحل الأولى، وفق بروتوكولات طبية معتمدة.",
+          cta: "اكتشف القطب",
+        },
+      },
       commitmentLabel: "التزامنا",
       commitmentTitle: "مرافقة إنسانية، منظّمة وشفافة",
       commitmentLead:
@@ -284,7 +303,7 @@ export const messages: Record<Locale, Messages> = {
         ],
         [
           "توحيد العرض والطلب",
-          "مساحاتنا المخصّصة والسوق تقرّب مقدّمي الخدمة من الباحثين عنها في مرجع واحد، في جميع أنحاء الجزائر.",
+          "مساحاتنا المخصّصة تقرّب العائلات من فرق SSL+++ ضمن إطار واحد، في جميع أنحاء الجزائر.",
         ],
       ],
       contactLabel: "اتصل بنا",
@@ -310,7 +329,6 @@ export const messages: Record<Locale, Messages> = {
         message: "الرسالة",
         messagePlaceholder: "صفّ حاجتك أو سؤالك…",
         submit: "إرسال الرسالة",
-        mockNote: "عرض توضيحي — لا يتم إرسال حقيقي حالياً.",
         successTitle: "تم تسجيل الرسالة",
         successMessage:
           "شكراً لرسالتك. سيتواصل معك فريقنا خلال 48 ساعة عمل (محاكاة).",
@@ -328,6 +346,8 @@ export const messages: Record<Locale, Messages> = {
       home: "الرئيسية",
       ourServices: "خدماتنا",
       marketplace: "السوق",
+      howItWorks: "كيف نعمل",
+      careers: "انضم إلينا",
       contact: "اتصل بنا",
       createAccount: "إنشاء حساب",
       login: "تسجيل الدخول",
@@ -337,9 +357,11 @@ export const messages: Record<Locale, Messages> = {
   en: {
     nav: {
       home: "Home",
-      contact: "Contact",
-      services: "Services",
+      contact: "Contact us",
+      services: "Our services",
       marketplace: "Marketplace",
+      howItWorks: "How it works",
+      careers: "Join us",
       createAccount: "Create account",
       login: "Sign in",
       menu: "Menu",
@@ -363,7 +385,32 @@ export const messages: Record<Locale, Messages> = {
       servicesLabel: "Our services",
       servicesTitle: "Social solutions tailored to every need",
       servicesDescription:
-        "Browse our areas of support. Click a service to learn more — available services open their dedicated space, others show a “coming soon” page.",
+        "Click a pillar to open its dedicated page. School support is live; the other two pillars are opening soon.",
+      voletsLabel: "SSL services",
+      voletsTitle: "Three pillars to structure social support",
+      volets: {
+        scolaire: {
+          brand: "SSL+",
+          title: "Public-school children",
+          excerpt:
+            "Working parents: a welcome site near public schools for childcare, balanced meals, revision workshops and your children's wellbeing.",
+          cta: "Explore this pillar",
+        },
+        domicile: {
+          brand: "SSL++",
+          title: "Home social support",
+          excerpt:
+            "Trained, selected help for relatives with disability, temporary incapacity or dependency — available 7 days a week, 24/7.",
+          cta: "Explore this pillar",
+        },
+        alzheimer: {
+          brand: "SSL+++",
+          title: "Alzheimer workshops",
+          excerpt:
+            "Cognitive stimulation and social life at early stages, following protocols established by healthcare professionals.",
+          cta: "Explore this pillar",
+        },
+      },
       commitmentLabel: "Our commitment",
       commitmentTitle: "Human support that is supervised and transparent",
       commitmentLead:
@@ -401,7 +448,7 @@ export const messages: Record<Locale, Messages> = {
         ],
         [
           "One place for offer and demand",
-          "Our dedicated spaces and marketplace connect providers and seekers on a single reference, across Algeria.",
+          "Our dedicated spaces bring families and SSL+++ teams together in one framework, across Algeria.",
         ],
       ],
       contactLabel: "Contact",
@@ -427,7 +474,6 @@ export const messages: Record<Locale, Messages> = {
         message: "Message",
         messagePlaceholder: "Describe your need or question…",
         submit: "Send message",
-        mockNote: "Demo only — no real submission yet.",
         successTitle: "Message recorded",
         successMessage:
           "Thank you for your message. Our team will get back to you within 48 business hours (simulation).",
@@ -445,6 +491,8 @@ export const messages: Record<Locale, Messages> = {
       home: "Home",
       ourServices: "Our services",
       marketplace: "Marketplace",
+      howItWorks: "How it works",
+      careers: "Join us",
       contact: "Contact",
       createAccount: "Create account",
       login: "Sign in",

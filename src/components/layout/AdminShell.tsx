@@ -12,10 +12,12 @@ import {
   Truck,
   UserCog,
   Users,
+  Video,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Logo from "@/components/brand/Logo";
 import UserAccountMenu from "@/components/auth/UserAccountMenu";
+import AdminNotifications from "@/components/admin/AdminNotifications";
 import type { Session } from "@/lib/auth";
 import { roleLabel } from "@/lib/auth";
 import {
@@ -27,6 +29,7 @@ import {
 const MODULE_ICONS: Record<AdminModuleId, LucideIcon> = {
   school: Users,
   staff: UserCog,
+  cameras: Video,
   partners: School,
   marketplace: ShoppingBag,
   supply: Truck,
@@ -55,7 +58,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       .catch(() => setUser(null));
   }, []);
 
-  const allowedModules = user ? getModulesForRole(user.role) : [];
+  const allowedModules = user ? getModulesForRole(user) : [];
   const grouped = GROUP_ORDER.map((group) => ({
     group,
     items: allowedModules.filter((m) => m.group === group),
@@ -71,12 +74,16 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     return `${pathname}?m=${id}`;
   }
 
+  if (pathname.startsWith("/admin/connexion")) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex min-h-screen bg-surface-2">
       <aside className="hidden w-56 flex-shrink-0 flex-col border-e border-white/10 bg-brand-deep md:flex">
         <div className="border-b border-white/10 px-4 py-4">
           <div className="inline-block rounded-lg bg-white px-2.5 py-2">
-            <Logo href="/admin" imageClassName="h-10 w-auto max-w-[100px] sm:h-11 sm:max-w-[112px]" />
+            <Logo href="/admin" imageClassName="h-14 w-auto max-w-[56px] sm:h-16 sm:max-w-[64px]" />
           </div>
           <p className="mt-2 text-[10px] font-medium uppercase tracking-wider text-white/45">
             ERP · Back-office
@@ -115,7 +122,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         {user && (
           <div className="border-t border-white/10 px-4 py-3">
             <p className="truncate text-xs font-medium text-white/80">{user.name}</p>
-            <p className="text-[10px] text-white/45">{roleLabel(user.role)}</p>
+            <p className="text-[10px] text-white/45">{roleLabel(user.role, user.staffTrack)}</p>
           </div>
         )}
       </aside>
@@ -148,6 +155,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             Back-office — accès restreint
           </span>
           <div className="flex items-center gap-3">
+            {user && <AdminNotifications user={user} />}
             {user && <UserAccountMenu user={user} onUserChange={setUser} theme="light" />}
             <Link
               href="/"

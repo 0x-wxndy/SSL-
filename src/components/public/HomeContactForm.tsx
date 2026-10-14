@@ -1,19 +1,15 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { FEATURES } from "@/lib/constants";
 import { useLocale } from "@/lib/i18n/locale-context";
 
 const inputCls =
-  "w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm transition-colors focus:border-brand-forest focus:outline-none";
+  "w-full rounded-md border border-line bg-white px-2.5 py-1.5 text-xs transition-colors focus:border-brand-forest focus:outline-none";
 
-const SUBJECT_KEYS = [
-  "general",
-  "schooling",
-  "home",
-  "seniors",
-  "marketplace",
-  "other",
-] as const;
+const SUBJECT_KEYS = (
+  ["general", "schooling", "home", "seniors", "marketplace", "other"] as const
+).filter((key) => FEATURES.marketplace || key !== "marketplace");
 
 type SubjectKey = (typeof SUBJECT_KEYS)[number];
 
@@ -27,8 +23,8 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-ink-muted">
+    <div className="flex flex-col gap-1">
+      <label className="text-[11px] font-semibold text-ink-muted">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {children}
@@ -49,14 +45,14 @@ export default function HomeContactForm() {
 
   if (submitted) {
     return (
-      <div className="card flex h-full flex-col justify-center p-6 sm:p-8">
-        <div className="rounded-xl border border-status-valid/20 bg-status-valid-bg px-5 py-6 text-center">
-          <p className="font-display text-xl font-bold text-status-valid">{f.successTitle}</p>
-          <p className="mt-3 text-sm leading-relaxed text-ink-muted">{f.successMessage}</p>
+      <div className="card flex h-full flex-col justify-center p-4 sm:p-5">
+        <div className="rounded-lg border border-status-valid/20 bg-status-valid-bg px-4 py-5 text-center">
+          <p className="font-display text-lg font-bold text-status-valid">{f.successTitle}</p>
+          <p className="mt-2 text-xs leading-relaxed text-ink-muted">{f.successMessage}</p>
           <button
             type="button"
             onClick={() => setSubmitted(false)}
-            className="btn-secondary mt-6"
+            className="btn-secondary btn-sm mt-4"
           >
             {t.home.contactUs}
           </button>
@@ -66,8 +62,8 @@ export default function HomeContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card p-6 sm:p-8">
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="card p-4 sm:p-5">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field label={f.name} required>
           <input
             required
@@ -86,7 +82,7 @@ export default function HomeContactForm() {
         </Field>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3">
         <Field label={f.email} required>
           <input
             required
@@ -98,7 +94,7 @@ export default function HomeContactForm() {
         </Field>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3">
         <Field label={f.subject} required>
           <select
             required
@@ -115,19 +111,18 @@ export default function HomeContactForm() {
         </Field>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3">
         <Field label={f.message} required>
           <textarea
             required
-            className={`${inputCls} min-h-[120px] resize-none`}
+            rows={3}
+            className={`${inputCls} resize-none`}
             placeholder={f.messagePlaceholder}
           />
         </Field>
       </div>
 
-      <p className="mt-4 text-xs text-ink-subtle">{f.mockNote}</p>
-
-      <button type="submit" className="btn-primary mt-5 w-full sm:w-auto">
+      <button type="submit" className="btn-primary btn-sm mt-4 w-full sm:w-auto">
         {f.submit}
       </button>
     </form>

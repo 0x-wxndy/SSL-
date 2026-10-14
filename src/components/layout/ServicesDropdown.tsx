@@ -6,12 +6,10 @@ import { ChevronDown } from "lucide-react";
 import { PLATFORM_SERVICES } from "@/lib/constants";
 import { useLocale } from "@/lib/i18n/locale-context";
 
-const serviceStyles: Record<string, { box: string; icon: string }> = {
-  "accompagnement-scolaire": { box: "bg-green-light", icon: "text-green-forest" },
-  "services-domicile": { box: "bg-amber-light", icon: "text-amber" },
-  "accompagnement-seniors": { box: "bg-coral-light", icon: "text-coral" },
-  "activites-alzheimer": { box: "bg-sky-light", icon: "text-sky" },
-  "aide-familiale": { box: "bg-plum-light", icon: "text-plum" },
+const serviceStyles: Record<string, { box: string; brand: string }> = {
+  "accompagnement-scolaire": { box: "bg-green-light text-green-forest", brand: "SSL+" },
+  "aide-sociale-domicile": { box: "bg-brand-light text-brand-deep", brand: "SSL++" },
+  "activites-alzheimer": { box: "bg-sky-light text-teal", brand: "SSL+++" },
 };
 
 type Props = {
@@ -47,7 +45,7 @@ export default function ServicesDropdown({ open, onToggle, onClose, active, clas
           <div className="absolute start-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-line bg-white shadow-hover">
             <ul className="py-1">
               {PLATFORM_SERVICES.map((service) => {
-                const style = serviceStyles[service.id] ?? serviceStyles["services-domicile"];
+                const style = serviceStyles[service.id] ?? serviceStyles["aide-sociale-domicile"];
                 const labels = t.serviceItems[service.id];
                 return (
                   <li key={service.id}>
@@ -58,12 +56,12 @@ export default function ServicesDropdown({ open, onToggle, onClose, active, clas
                     >
                       <span
                         className={clsx(
-                          "mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-lg",
+                          "mt-0.5 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-[10px] font-bold",
                           style.box
                         )}
                         aria-hidden
                       >
-                        {service.icon}
+                        {style.brand}
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="flex items-start justify-between gap-2">
@@ -110,7 +108,9 @@ export function ServicesMobileList({ onClose }: { onClose: () => void }) {
                 onClick={onClose}
                 className="flex items-center gap-3 px-1 py-2 text-sm text-ink hover:text-brand-forest"
               >
-                <span aria-hidden>{service.icon}</span>
+                <span className="text-[10px] font-bold text-ink-subtle">
+                  {service.brand}
+                </span>
                 <span className="flex-1">{labels?.title ?? service.title}</span>
                 {!service.available && <span className="badge badge-wait">{t.common.comingSoon}</span>}
               </Link>

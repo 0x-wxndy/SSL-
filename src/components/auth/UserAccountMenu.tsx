@@ -73,6 +73,14 @@ function ProfileModal({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
+  const [badgeId, setBadgeId] = useState("");
+  const [badgeGate, setBadgeGate] = useState("");
+  const [badgeActive, setBadgeActive] = useState(true);
+  const [badgeRole, setBadgeRole] = useState("");
+  const [badgeLastScan, setBadgeLastScan] = useState("");
+  const [hasBadge, setHasBadge] = useState(false);
+  const [badgeLoading, setBadgeLoading] = useState(false);
+
   useEffect(() => {
     if (!open) return;
     setName(user.name);
@@ -80,6 +88,37 @@ function ProfileModal({
     setBio(user.bio ?? "");
     setAvatarUrl(user.avatarUrl ?? "");
     setError("");
+
+    setBadgeLoading(true);
+    fetch("/api/auth/profile/badge")
+      .then((r) => (r.ok ? r.json() : { profile: null }))
+      .then((data) => {
+        const profile = data.profile as
+          | {
+              staff: { phone: string; role: string };
+              badge: {
+                badgeId: string;
+                gate: string;
+                active: boolean;
+                roleLabel: string;
+                lastScan: string;
+              };
+            }
+          | null;
+        if (!profile) {
+          setHasBadge(false);
+          return;
+        }
+        setHasBadge(true);
+        setBadgeId(profile.badge.badgeId);
+        setBadgeGate(profile.badge.gate);
+        setBadgeActive(profile.badge.active);
+        setBadgeRole(profile.badge.roleLabel || profile.staff.role);
+        setBadgeLastScan(profile.badge.lastScan);
+        if (!user.phone && profile.staff.phone) setPhone(profile.staff.phone);
+      })
+      .catch(() => setHasBadge(false))
+      .finally(() => setBadgeLoading(false));
   }, [open, user]);
 
   async function handleSave(e: React.FormEvent) {
@@ -97,6 +136,26 @@ function ProfileModal({
         setError(data.error ?? "Enregistrement impossible");
         return;
       }
+
+      if (hasBadge) {
+        const badgeRes = await fetch("/api/auth/profile/badge", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone,
+            holderName: name,
+            gate: badgeGate,
+            active: badgeActive,
+          }),
+        });
+        if (!badgeRes.ok) {
+          const badgeData = await badgeRes.json().catch(() => ({}));
+          setError(badgeData.error ?? "Profil enregistré, badge non mis à jour");
+          onSaved(data.user as Session);
+          return;
+        }
+      }
+
       onSaved(data.user as Session);
       onClose();
     } catch {
@@ -134,10 +193,10 @@ function ProfileModal({
         aria-label="Fermer"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-md rounded-2xl border border-line bg-white p-6 shadow-hover">
+      <div className="relative z-10 max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-line bg-white p-6 shadow-hover">
         <h2 className="font-display text-xl font-bold text-ink">Mon profil</h2>
         <p className="mt-1 text-sm text-ink-muted">
-          {roleLabel(user.role)} · {user.email}
+          {roleLabel(user.role, user.staffTrack)} · {user.email}
         </p>
 
         <form onSubmit={handleSave} className="mt-6 space-y-4">
@@ -214,6 +273,54 @@ function ProfileModal({
             />
           </div>
 
+          {(hasBadge || badgeLoading) && (
+            <div className="rounded-xl border border-line bg-surface-2 p-4">
+              <p className="text-xs font-bold uppercase tracking-wide text-brand-forest">
+                Badge d&apos;accès — voir / modifier
+              </p>
+              {badgeLoading ? (
+                <p className="mt-2 text-xs text-ink-muted">Chargement du badge…</p>
+              ) : (
+                <div className="mt-3 space-y-3">
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <p className="font-semibold text-ink-muted">ID badge</p>
+                      <p className="mt-0.5 font-mono text-ink">{badgeId}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-ink-muted">Poste</p>
+                      <p className="mt-0.5 text-ink">{badgeRole}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="font-semibold text-ink-muted">Dernier scan</p>
+                      <p className="mt-0.5 text-ink">{badgeLastScan || "—"}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-ink-muted">
+                      Portail d&apos;accès
+                    </label>
+                    <input
+                      value={badgeGate}
+                      onChange={(e) => setBadgeGate(e.target.value)}
+                      className="w-full rounded-lg border border-line bg-white px-3 py-2 text-sm"
+                      placeholder="Entrée personnel"
+                    />
+                  </div>
+                  <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-ink">
+                    <input
+                      type="checkbox"
+                      checked={badgeActive}
+                      onChange={(e) => setBadgeActive(e.target.checked)}
+                      className="rounded border-line text-brand-forest focus:ring-brand-forest"
+                    />
+                    Badge actif
+                  </label>
+                </div>
+              )}
+            </div>
+          )}
+
           {error && <p className="text-sm text-status-error">{error}</p>}
 
           <div className="flex justify-end gap-2 pt-2">
@@ -227,7 +334,7 @@ function ProfileModal({
         </form>
 
         <p className="mt-4 text-[11px] text-ink-subtle">
-          Démonstration — le profil est stocké dans votre session (cookie).
+          Démonstration — profil session + badge personnel en mémoire serveur.
         </p>
       </div>
     </div>
@@ -298,7 +405,7 @@ export default function UserAccountMenu({
             <div className="border-b border-line px-3 py-2.5">
               <p className="truncate text-sm font-semibold text-ink">{user.name}</p>
               <p className="truncate text-[11px] text-ink-muted">{user.email}</p>
-              <p className="text-[10px] text-ink-subtle">{roleLabel(user.role)}</p>
+              <p className="text-[10px] text-ink-subtle">{roleLabel(user.role, user.staffTrack)}</p>
             </div>
             <button
               type="button"

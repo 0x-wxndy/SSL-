@@ -4,12 +4,19 @@ export const ESTABLISHMENT = {
   tagline: "Plateforme d'aide sociale",
   ageRange: "6 à 18 ans",
   languages: ["Français", "Arabe", "English"] as const,
-  validationDelay: "3 jours maximum",
+  validationDelay: "72 heures",
   augustClosed: true,
 };
 
+/** Flip to true to surface marketplace in nav, footer and needs wizard again */
+export const FEATURES = {
+  marketplace: false,
+} as const;
+
 export type PlatformService = {
   id: string;
+  voletId: "scolaire" | "domicile" | "alzheimer";
+  brand: string;
   title: string;
   subtitle: string;
   description: string;
@@ -21,53 +28,39 @@ export type PlatformService = {
 export const PLATFORM_SERVICES: PlatformService[] = [
   {
     id: "accompagnement-scolaire",
+    voletId: "scolaire",
+    brand: "SSL+",
     title: "Accompagnement scolaire",
-    subtitle: "Garde & éducation · 6–18 ans",
+    subtitle: "Enfants scolarisés — secteur public",
     description:
-      "Garderie, sorties d'école, soutien scolaire et suivi parental dans un cadre sécurisé, trilingue et adapté à votre rythme familial.",
-    icon: "🎓",
+      "Site d'accueil à proximité des écoles publiques : gardiennage, restauration équilibrée, ateliers de révision et services pensés au bien-être de vos enfants.",
+    icon: "scolaire",
     available: true,
     href: "/services/accompagnement-scolaire",
   },
   {
-    id: "services-domicile",
-    title: "Services à domicile",
-    subtitle: "Ménage & entretien du foyer",
+    id: "aide-sociale-domicile",
+    voletId: "domicile",
+    brand: "SSL++",
+    title: "Aide sociale",
+    subtitle: "Handicap, invalidité & personnes âgées",
     description:
-      "Nettoyage, repassage, entretien courant et aide à l'organisation du quotidien à domicile, par des professionnels de confiance.",
-    icon: "🏠",
+      "Une aide sociale formée et sélectionnée pour vos proches : gardiennage, accompagnement à mobilité réduite et suivi quotidien — 7j/7 et 24h/24.",
+    icon: "domicile",
     available: false,
-    href: "/services/services-domicile",
-  },
-  {
-    id: "accompagnement-seniors",
-    title: "Accompagnement des seniors",
-    subtitle: "Aide et présence au quotidien",
-    description:
-      "Accompagnement des personnes âgées : aide à la mobilité, courses, repas, compagnie et coordination avec les proches.",
-    icon: "🤝",
-    available: false,
-    href: "/services/accompagnement-seniors",
+    href: "/services/aide-sociale-domicile",
   },
   {
     id: "activites-alzheimer",
-    title: "Activités Alzheimer",
-    subtitle: "Stimulation & bien-être",
+    voletId: "alzheimer",
+    brand: "SSL+++",
+    title: "Ateliers Alzheimer",
+    subtitle: "Premiers stades · stimulation cognitive",
     description:
-      "Ateliers de stimulation cognitive, activités adaptées et programmes d'accompagnement pour les personnes atteintes d'Alzheimer.",
-    icon: "🧩",
+      "Ateliers d'accompagnement aux premiers stades : stimulation cognitive, maintien de la vie sociale et protocoles établis par des professionnels de santé.",
+    icon: "alzheimer",
     available: false,
     href: "/services/activites-alzheimer",
-  },
-  {
-    id: "aide-familiale",
-    title: "Aide familiale",
-    subtitle: "Soutien aux familles",
-    description:
-      "Conciergerie du quotidien, garde ponctuelle, coordination des besoins du foyer et services sur mesure selon votre situation.",
-    icon: "💚",
-    available: false,
-    href: "/services/aide-familiale",
   },
 ];
 
@@ -142,27 +135,27 @@ export const STAFF_ROLES = [
     badge: true,
   },
   {
-    role: "Direction — Admin Secondaire",
-    pages: "Dossiers, partenaires, fournisseurs, stocks (saisie)",
-    forbidden: "Reporting financier, suppression définitive",
+    role: "Admin pédagogique — dossiers",
+    pages: "Dossiers enfants, partenaires, validations pédagogiques",
+    forbidden: "Stocks cantine, reporting financier",
     badge: true,
   },
   {
-    role: "Staff permanent",
+    role: "Admin stocks — site scolaire",
+    pages: "Fournisseurs, stocks alimentaires & fournitures, bons de commande",
+    forbidden: "Validation dossiers pédagogiques",
+    badge: true,
+  },
+  {
+    role: "Staff (×4) — accueil, cuisine, encadrement, soutien",
     pages: "Consultation dossiers, badgeuse, présences",
     forbidden: "Validation dossiers, facturation, reporting",
     badge: true,
   },
   {
-    role: "Staff consultant",
-    pages: "Consultation planning, badgeuse",
-    forbidden: "Modification dossiers, accès admin",
-    badge: true,
-  },
-  {
-    role: "Éducation / Cuisine",
-    pages: "Présences, planning du jour",
-    forbidden: "Données financières, validation dossiers",
+    role: "Partenaire scolaire (enseignants TP)",
+    pages: "Badge entrée partenaires, planning interventions",
+    forbidden: "Back-office admin",
     badge: true,
   },
 ] as const;
@@ -173,5 +166,4 @@ export const JOURNEE_TYPE = [
   { time: "12h–13h", label: "Repas", detail: "Déjeuner encadré — allergies signalées au dossier" },
   { time: "15h–17h", label: "Révisions", detail: "Collation + séances de révision (Pack 2 & 4)" },
   { time: "17h–20h", label: "Soutien scolaire", detail: "Cours par matière au choix (Pack 3 & 4)" },
-  { time: "—", label: "Pas de créneau sieste", detail: "SSL+++ ne propose pas de sieste sur site" },
 ] as const;

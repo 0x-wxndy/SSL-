@@ -4,9 +4,9 @@ import clsx from "clsx";
 
 const LOGO_SRC = "/assets/ssl-logo.png";
 
-/** Intrinsic ratio of ssl-logo.png (~1.45:1 width/height) */
-const LOGO_WIDTH = 160;
-const LOGO_HEIGHT = 110;
+/** Intrinsic ratio of ssl-logo.png (square stacked SSL+++) */
+const LOGO_WIDTH = 500;
+const LOGO_HEIGHT = 500;
 
 type LogoProps = {
   /** Omit for home (`/`). Pass `false` to render without a link. */

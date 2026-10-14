@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Logo from "@/components/brand/Logo";
-import { ESTABLISHMENT } from "@/lib/constants";
+import { ESTABLISHMENT, FEATURES } from "@/lib/constants";
 import { useLocale } from "@/lib/i18n/locale-context";
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -22,7 +22,11 @@ export default function PublicFooter() {
   const navLinks = [
     { href: "/", label: t.footer.home },
     { href: "/#services", label: t.footer.ourServices },
-    { href: "/marketplace", label: t.footer.marketplace },
+    ...(FEATURES.marketplace
+      ? [{ href: "/marketplace", label: t.footer.marketplace }]
+      : []),
+    { href: "/notre-fonctionnement", label: t.footer.howItWorks },
+    { href: "/rejoindre", label: t.footer.careers },
     { href: "/contact", label: t.footer.contact },
   ];
 
@@ -37,7 +41,7 @@ export default function PublicFooter() {
         <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr_1fr] lg:items-start lg:gap-12">
           <div className="flex gap-5 sm:gap-6">
             <div className="shrink-0 pt-0.5">
-              <Logo href="/" imageClassName="h-[56px] w-auto max-w-[108px] object-contain sm:h-[64px] sm:max-w-[120px]" />
+              <Logo href="/" imageClassName="h-[72px] w-auto max-w-[72px] object-contain sm:h-[88px] sm:max-w-[88px]" />
             </div>
             <div className="min-w-0 pt-1">
               <p className="text-sm leading-relaxed text-ink-muted">{t.footer.description}</p>

@@ -2,13 +2,12 @@ import Link from "next/link";
 import { ESTABLISHMENT, JOURNEE_TYPE, PACKAGES } from "@/lib/constants";
 
 const rules = [
-  "Accès au site contrôlé par badge ID (enfant, personnel, carte d'adhésion).",
+  "Accès au site contrôlé par badge ID (enfants, parents, personnel et partenaires scolaires).",
   "Autorisations photo et sortie encadrée à confirmer lors de l'inscription.",
   "Allergies alimentaires et handicaps physiques : déclaration obligatoire avec justificatifs médicaux.",
-  "Absences et annulations : préavis minimum requis — facturation et crédits selon la formule.",
+  "Le contrat de scolarité est mensuel. Absences et annulations : préavis minimum requis — facturation et crédits selon la formule.",
   "Liste d'attente active : une place libérée peut être proposée à la famille suivante.",
   "Le mois d'août : établissement fermé (Package 5 vacances non disponible).",
-  "SSL+++ ne propose pas de créneau sieste sur site.",
   "Caméras : accès réservé aux parents via l'espace parent sécurisé.",
 ];
 

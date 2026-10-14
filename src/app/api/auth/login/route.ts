@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { SESSION_COOKIE, verifyCredentials, type AuthPortal } from "@/lib/auth";
+import { withParentAccess } from "@/lib/parent-access";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
   if (
     !email ||
     !password ||
-    (portal !== "parent" && portal !== "admin" && portal !== "marketplace" && portal !== "user")
+    (portal !== "parent" && portal !== "admin" && portal !== "user" && portal !== "alzheimer")
   ) {
     return NextResponse.json({ error: "Requête invalide" }, { status: 400 });
   }
@@ -22,14 +23,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Identifiants incorrects pour cet espace" }, { status: 401 });
   }
 
+  const enriched = withParentAccess(session);
+
   const redirect =
     portal === "parent"
       ? "/parent"
-      : portal === "marketplace" || portal === "user"
+      : portal === "user"
         ? "/marketplace/compte"
-        : "/admin";
-  const response = NextResponse.json({ ok: true, redirect, user: session });
-  response.cookies.set(SESSION_COOKIE, JSON.stringify(session), {
+        : portal === "alzheimer"
+          ? "/alzheimer"
+          : "/admin";
+  const response = NextResponse.json({ ok: true, redirect, user: enriched });
+  response.cookies.set(SESSION_COOKIE, JSON.stringify(enriched), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

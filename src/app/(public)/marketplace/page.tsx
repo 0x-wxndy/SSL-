@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ESTABLISHMENT } from "@/lib/constants";
 import { MARKETPLACE_LISTINGS } from "@/lib/marketplace-data";
 import MarketplaceBrowse from "@/components/marketplace/MarketplaceBrowse";
@@ -29,8 +30,8 @@ export default function MarketplacePage() {
               <dd className="text-xl font-bold text-brand-forest">{MARKETPLACE_LISTINGS.length}</dd>
             </div>
             <div>
-              <dt className="text-xs text-ink-muted">Catégories</dt>
-              <dd className="text-xl font-bold text-brand-forest">8</dd>
+              <dt className="text-xs text-ink-muted">Volets SSL</dt>
+              <dd className="text-xl font-bold text-brand-forest">3</dd>
             </div>
             <div>
               <dt className="text-xs text-ink-muted">Wilayas</dt>
@@ -41,7 +42,9 @@ export default function MarketplacePage() {
       </section>
 
       <section className="site-wrap py-10 sm:py-12">
-        <MarketplaceBrowse />
+        <Suspense fallback={<p className="text-sm text-ink-muted">Chargement…</p>}>
+          <MarketplaceBrowse />
+        </Suspense>
       </section>
     </div>
   );

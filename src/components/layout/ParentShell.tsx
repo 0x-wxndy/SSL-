@@ -57,7 +57,7 @@ export default function ParentShell({ children }: { children: React.ReactNode })
             <div className="shrink-0 rounded-xl bg-white px-3 py-2.5 shadow-sm sm:px-4 sm:py-3">
               <Logo
                 href="/parent"
-                imageClassName="h-11 w-auto max-w-[108px] sm:h-[3.25rem] sm:max-w-[128px]"
+                imageClassName="h-14 w-auto max-w-[56px] sm:h-16 sm:max-w-[64px]"
               />
             </div>
             <div className="min-w-0">

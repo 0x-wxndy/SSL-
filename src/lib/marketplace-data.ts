@@ -238,10 +238,10 @@ export function getListingsByProvider(providerId: string): MarketplaceListing[] 
   return MARKETPLACE_LISTINGS.filter((l) => l.providerId === providerId);
 }
 
-export const MARKETPLACE_DEMO_PROVIDER = {
-  id: "prov-001",
-  email: "prestataire@ssl.dz",
-  password: "market123",
-  name: "Fatima Zohra K.",
-  phone: "+213 555 12 34 56",
+export const MARKETPLACE_DEMO_USER = {
+  id: "user-001",
+  email: "user@ssl.dz",
+  password: "user123",
+  name: "Karim B.",
+  phone: "+213 555 00 00 01",
 };

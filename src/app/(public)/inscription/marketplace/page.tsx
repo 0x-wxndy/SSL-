@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function MarketplaceRegisterRedirect() {
-  redirect("/inscription/prestataire");
+export default function MarketplaceSignupRedirect() {
+  redirect("/inscription/utilisateur");
 }

@@ -64,7 +64,6 @@ export type Messages = {
       message: string;
       messagePlaceholder: string;
       submit: string;
-      mockNote: string;
       successTitle: string;
       successMessage: string;
       infoPhone: string;

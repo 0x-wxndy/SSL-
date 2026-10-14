@@ -1,13 +1,5 @@
 import clsx from "clsx";
-import {
-  ArrowRight,
-  BookOpen,
-  FileCheck,
-  Languages,
-  ShieldCheck,
-  Smartphone,
-  Users,
-} from "lucide-react";
+import { BookOpen, FileCheck, ShieldCheck, Smartphone, Users } from "lucide-react";
 import Link from "next/link";
 import SchoolingHeroFrame from "@/components/public/SchoolingHeroFrame";
 import { ESTABLISHMENT, JOURNEE_TYPE, PACKAGES } from "@/lib/constants";
@@ -15,9 +7,9 @@ import { ESTABLISHMENT, JOURNEE_TYPE, PACKAGES } from "@/lib/constants";
 const FEATURES = [
   {
     icon: ShieldCheck,
-    title: "Sécurité à l'entrée",
+    title: "Contrôle d'accès par badge",
     description:
-      "Badge d'accès pour chaque enfant et chaque membre du personnel — contrôle systématique à l'entrée du site.",
+      "Badges pour enfants, parents, personnel et partenaires scolaires — authentification à chaque entrée du site.",
     accent: true,
   },
   {
@@ -34,21 +26,6 @@ const FEATURES = [
       "Planning, messages, caméras et suivi des prestations — tout est accessible après connexion, où que vous soyez.",
     accent: false,
   },
-  {
-    icon: Languages,
-    title: "Communication trilingue",
-    description:
-      "Notre équipe vous accueille en français, arabe et anglais pour un dialogue fluide avec chaque famille.",
-    accent: false,
-  },
-] as const;
-
-const QUICK_LINKS = [
-  { href: "/inscription/parent", label: "Inscription en ligne", note: "Ouvrir le dossier de votre enfant" },
-  { href: "/reglement-interieur", label: "Règlement intérieur", note: "Règles, horaires et fonctionnement" },
-  { href: "/connexion?role=parent", label: "Espace parent", note: "Planning, messages et caméras" },
-  { href: "/connexion?role=admin", label: "Accès équipe", note: "Connexion staff & administration" },
-  { href: "/contact", label: "Nous contacter", note: "Coordonnées et prise de rendez-vous" },
 ] as const;
 
 export default function AccompagnementScolairePage() {
@@ -75,25 +52,14 @@ export default function AccompagnementScolairePage() {
               </span>
 
               <h1 className="mb-5 font-display text-[2rem] font-bold leading-[1.12] text-ink sm:text-[2.75rem] lg:text-[3.25rem]">
-                Un pont entre{" "}
-                <span className="italic text-green-forest">l&apos;école</span> et{" "}
-                <span className="italic text-green-forest">la maison</span>
+                Accompagnement scolaire
               </h1>
 
-              <p className="mb-6 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
+              <p className="max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
                 Garderie, sorties d&apos;école, soutien scolaire et suivi parental pour les{" "}
-                {ESTABLISHMENT.ageRange}. Une équipe trilingue, des horaires souples et un cadre
-                sécurisé pensé pour votre rythme familial.
+                {ESTABLISHMENT.ageRange}. Des horaires souples et un cadre sécurisé pensé pour votre
+                rythme familial.
               </p>
-
-              <div className="flex flex-wrap gap-3">
-                <Link href="/inscription/parent" className="btn-primary">
-                  Demander une inscription
-                </Link>
-                <Link href="/connexion?role=parent" className="btn-secondary">
-                  Espace parent
-                </Link>
-              </div>
             </div>
 
             <div className="flex min-h-[320px] w-full items-center justify-center py-4 sm:min-h-[360px] lg:sticky lg:top-20 lg:min-h-[380px] lg:justify-end lg:py-0">
@@ -155,8 +121,8 @@ export default function AccompagnementScolairePage() {
               </h2>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-ink-muted sm:text-right">
-              Facturation par package. Absences avec préavis. Liste d&apos;attente possible selon
-              les places disponibles.
+              Le contrat de scolarité est mensuel, facturé selon la formule choisie. Absences avec
+              préavis. Liste d&apos;attente possible selon les places disponibles.
             </p>
           </div>
 
@@ -273,39 +239,9 @@ export default function AccompagnementScolairePage() {
               </Link>
               <Link href="/connexion?role=parent" className="btn-secondary !border-green-forest !text-green-forest hover:!bg-green-light">
                 <BookOpen className="h-4 w-4" aria-hidden />
-                Mon espace
+                Espace parent
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick links */}
-      <section className="bg-surface-green">
-        <div className="site-wrap py-12 sm:py-14">
-          <p className="section-label mb-2 text-green-forest">Accès rapides</p>
-          <h2 className="mb-8 font-display text-2xl font-bold text-ink sm:text-3xl">
-            Tout ce dont vous avez besoin
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {QUICK_LINKS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group flex items-start justify-between gap-4 rounded-xl border border-line bg-white p-5 transition-all hover:border-green-forest/30 hover:bg-green-light/40 hover:shadow-card sm:p-6"
-              >
-                <div>
-                  <span className="font-display text-lg text-ink transition-colors group-hover:text-green-forest">
-                    {item.label}
-                  </span>
-                  <span className="mt-1 block text-sm text-ink-muted">{item.note}</span>
-                </div>
-                <ArrowRight
-                  className="mt-1 h-4 w-4 shrink-0 text-ink-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-green-forest"
-                  aria-hidden
-                />
-              </Link>
-            ))}
           </div>
         </div>
       </section>

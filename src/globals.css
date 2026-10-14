@@ -170,7 +170,7 @@ h1, h2, h3 {
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: min(100%, 1200px) auto;
-    opacity: 0.62;
+    opacity: 0.88;
     pointer-events: none;
   }
 
@@ -180,9 +180,9 @@ h1, h2, h3 {
     inset: 0;
     background: linear-gradient(
       105deg,
-      rgba(253, 248, 242, 0.94) 0%,
-      rgba(253, 248, 242, 0.82) 45%,
-      rgba(255, 240, 214, 0.55) 100%
+      rgba(255, 251, 245, 0.78) 0%,
+      rgba(255, 251, 245, 0.55) 42%,
+      rgba(255, 248, 214, 0.28) 100%
     );
     pointer-events: none;
   }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { parseSession, SESSION_COOKIE, type Session } from "@/lib/auth";
+import { parseSession, SESSION_COOKIE, enrichSession, type Session } from "@/lib/auth";
 
 const SESSION_MAX_AGE = 60 * 60 * 8;
 
@@ -65,13 +65,13 @@ export async function PATCH(request: Request) {
     }
   }
 
-  const updated: Session = {
+  const updated: Session = enrichSession({
     ...session,
     name,
     phone: phone || undefined,
     bio: bio || undefined,
     avatarUrl,
-  };
+  });
 
   const response = NextResponse.json({ ok: true, user: updated });
   response.cookies.set(SESSION_COOKIE, JSON.stringify(updated), sessionCookieOptions());

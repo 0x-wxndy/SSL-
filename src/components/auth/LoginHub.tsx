@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 import Logo from "@/components/brand/Logo";
 import type { AuthPortal } from "@/lib/auth";
 
-type PortalKey = "user" | "provider" | "parent" | "admin";
+import { FEATURES } from "@/lib/constants";
+
+type PortalKey = "user" | "parent" | "admin" | "alzheimer";
 
 type DemoAccount = { email: string; password: string; label: string };
 
@@ -24,20 +26,12 @@ const PORTALS: PortalConfig[] = [
   {
     key: "user",
     portal: "user",
-    label: "Utilisateur",
-    title: "Connexion — Utilisateur",
-    subtitle: "Parcourez la marketplace, publiez des annonces et gérez votre profil",
+    label: "Client",
+    title: "Connexion — Espace client",
+    subtitle: FEATURES.marketplace
+      ? "Marketplace : parcourir les annonces, publier vos services et gérer votre profil"
+      : "Demande de prestation d'aide sociale",
     demoAccounts: [{ label: "Utilisateur — Karim B.", email: "user@ssl.dz", password: "user123" }],
-  },
-  {
-    key: "provider",
-    portal: "marketplace",
-    label: "Prestataire",
-    title: "Connexion — Prestataire",
-    subtitle: "Publiez et gérez vos annonces d'aide sociale",
-    demoAccounts: [
-      { label: "Prestataire — Fatima Zohra K.", email: "prestataire@ssl.dz", password: "market123" },
-    ],
   },
   {
     key: "parent",
@@ -48,30 +42,59 @@ const PORTALS: PortalConfig[] = [
     demoAccounts: [{ label: "Parent — Famille Benali", email: "parent@ssl.dz", password: "parent123" }],
   },
   {
+    key: "alzheimer",
+    portal: "alzheimer",
+    label: "Ateliers Alzheimer",
+    title: "Connexion — Espace ateliers Alzheimer",
+    subtitle: "Suivi des ateliers, présences et échanges avec l'équipe",
+    demoAccounts: [{ label: "Proche aidant — Nadia K.", email: "alzheimer@ssl.dz", password: "alzheimer123" }],
+  },
+  {
     key: "admin",
     portal: "admin",
     label: "Administration",
     title: "Connexion — Back-office",
     subtitle: "Direction, administration et personnel SSL+++",
     demoAccounts: [
-      { label: "Admin Principal", email: "admin@ssl.dz", password: "admin123" },
-      { label: "Admin Secondaire", email: "admin2@ssl.dz", password: "admin2123" },
-      { label: "Staff", email: "staff@ssl.dz", password: "staff123" },
+      { label: "Admin Principal — Mme Hayet Laker", email: "admin@ssl.dz", password: "admin123" },
+      { label: "Admin pédagogique (dossiers)", email: "admin2@ssl.dz", password: "admin2123" },
+      { label: "Admin stocks (cantine & fournitures)", email: "supply@ssl.dz", password: "supply123" },
+      { label: "Staff 1 — Cuisine (stocks)", email: "staff@ssl.dz", password: "staff123" },
+      { label: "Staff 2 — Accueil (présences)", email: "staff2@ssl.dz", password: "staff2123" },
+      { label: "Staff 3 — Encadrement (pédagogie)", email: "staff3@ssl.dz", password: "staff3123" },
+      { label: "Staff 4 — Soutien (pédagogie)", email: "staff4@ssl.dz", password: "staff4123" },
     ],
   },
 ];
 
-function parsePortalKey(value: string | null): PortalKey {
-  if (value === "user" || value === "provider" || value === "parent" || value === "admin") {
-    return value;
+function parsePortalKey(value: string | null, allowed: PortalKey[]): PortalKey {
+  if (value === "provider") return allowed.includes("user") ? "user" : allowed[0];
+  if (value === "user" || value === "parent" || value === "admin" || value === "alzheimer") {
+    return allowed.includes(value) ? value : allowed[0];
   }
-  return "user";
+  return allowed[0];
 }
 
-export default function LoginHub() {
+type LoginHubProps = {
+  portals?: PortalKey[];
+};
+
+export default function LoginHub({ portals }: LoginHubProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialKey = parsePortalKey(searchParams.get("role"));
+  const requestedRole = searchParams.get("role");
+  const available = useMemo(() => {
+    const locked =
+      requestedRole === "user" ||
+      requestedRole === "parent" ||
+      requestedRole === "admin" ||
+      requestedRole === "alzheimer"
+        ? [requestedRole]
+        : ["user", "parent"];
+    const base = portals ?? locked;
+    return base.filter((key) => PORTALS.some((item) => item.key === key));
+  }, [portals, requestedRole]);
+  const initialKey = parsePortalKey(searchParams.get("role"), available);
   const [portalKey, setPortalKey] = useState<PortalKey>(initialKey);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,6 +105,12 @@ export default function LoginHub() {
     () => PORTALS.find((item) => item.key === portalKey) ?? PORTALS[0],
     [portalKey]
   );
+
+  useEffect(() => {
+    if (searchParams.get("role") === "admin" && !available.includes("admin")) {
+      router.replace("/admin/connexion");
+    }
+  }, [available, router, searchParams]);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -124,19 +153,36 @@ export default function LoginHub() {
     setError("");
   }
 
+  const backHref =
+    active.key === "parent"
+      ? "/services/accompagnement-scolaire"
+      : active.key === "user"
+        ? "/services/aide-sociale-domicile"
+        : active.key === "alzheimer"
+          ? "/services/activites-alzheimer"
+          : "/";
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface px-4 py-12">
       <div className="w-full max-w-lg">
+        <Link href={backHref} className="mb-4 inline-block text-sm font-semibold text-ink-muted hover:text-brand-forest">
+          ← Retour
+        </Link>
         <div className="mb-6 text-center">
           <div className="mb-4 flex justify-center">
-            <Logo href="/" imageClassName="w-[140px]" />
+            <Logo href="/" imageClassName="h-[160px] w-auto max-w-[160px]" />
           </div>
-          <h1 className="font-display text-xl font-semibold text-ink">Connexion</h1>
-          <p className="mt-1 text-sm text-ink-muted">Choisissez votre type d&apos;accès</p>
+          <h1 className="font-display text-xl font-semibold text-ink">
+            {available.length === 1 ? active.title : "Connexion"}
+          </h1>
+          {available.length > 1 && (
+            <p className="mt-1 text-sm text-ink-muted">Choisissez votre espace : client ou parent</p>
+          )}
         </div>
 
-        <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {PORTALS.map((item) => (
+        {available.length > 1 && (
+        <div className="mb-4 grid grid-cols-2 gap-2">
+          {PORTALS.filter((item) => available.includes(item.key)).map((item) => (
             <button
               key={item.key}
               type="button"
@@ -152,6 +198,7 @@ export default function LoginHub() {
             </button>
           ))}
         </div>
+        )}
 
         <div className="mb-4 rounded-xl border border-line bg-white px-4 py-3">
           <p className="font-display text-sm font-semibold text-ink">{active.title}</p>

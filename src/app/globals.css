@@ -5,12 +5,17 @@
 @tailwind utilities;
 
 :root {
-  /* Brand — warm amber/orange (dominant) */
-  --brand-forest: #F7931A;
-  --brand-deep: #8B5200;
-  --brand-mid: #FB923C;
-  --brand-light: #FFF0D6;
-  --brand-mint: #FDE68A;
+  /* Brand — coral + sunshine yellow + teal */
+  --brand-forest: #E8455A;
+  --brand-deep: #B02A3C;
+  --brand-mid: #F06B7A;
+  --brand-light: #FFF0F2;
+  --brand-mint: #FFE0E5;
+
+  /* Yellow — energy / highlights */
+  --yellow: #F5C518;
+  --yellow-deep: #D4A017;
+  --yellow-light: #FFF8D6;
 
   /* Green — schooling service & success semantics only */
   --green-forest: #1B6E4F;
@@ -18,37 +23,39 @@
   --green-mid: #2D8A64;
   --green-light: #E0F2E9;
 
-  /* Legacy aliases (orange primary) */
+  /* Legacy aliases */
   --brand: var(--brand-forest);
   --brand-dark: var(--brand-deep);
   --accent: var(--brand-forest);
   --accent-light: var(--brand-light);
 
   /* Service accents */
-  --accent-amber: #F7931A;
-  --accent-amber-light: #FFF0D6;
-  --accent-coral: #E86C5A;
-  --accent-coral-light: #FDECEA;
-  --accent-sky: #5B8DD9;
-  --accent-sky-light: #E8F0FD;
-  --accent-plum: #9B6ED4;
-  --accent-plum-light: #F3ECFC;
+  --accent-amber: #F5C518;
+  --accent-amber-light: #FFF8D6;
+  --accent-coral: #E8455A;
+  --accent-coral-light: #FFF0F2;
+  --accent-sky: #1AA6A0;
+  --accent-sky-light: #E6F7F6;
+  --accent-plum: #8B5CF6;
+  --accent-plum-light: #F3EEFF;
+  --accent-teal: #1AA6A0;
+  --accent-teal-light: #E6F7F6;
 
-  /* Surfaces */
-  --surface-base: #FDF8F2;
+  /* Surfaces — warm blush cream */
+  --surface-base: #FFFBF5;
   --surface-green: #FFF8EE;
-  --surface-2: #F4F7F5;
+  --surface-2: #F7F4F0;
   --surface: var(--surface-base);
 
   /* Text */
-  --ink: #1A1A18;
-  --ink-muted: #5C5A54;
-  --ink-subtle: #8A8880;
+  --ink: #1C1917;
+  --ink-muted: #57534E;
+  --ink-subtle: #78716C;
   --muted: var(--ink-muted);
 
   /* Borders */
-  --line: #E5DFD4;
-  --line-brand: rgba(247, 147, 26, 0.2);
+  --line: #E7E0DC;
+  --line-brand: rgba(232, 69, 90, 0.22);
 
   /* Status */
   --status-valid: #1B6E4F;
@@ -113,12 +120,23 @@ h1, h2, h3 {
   }
 
   .btn-amber {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-colors;
-    background-color: var(--accent-amber);
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-ink transition-colors;
+    background-color: var(--yellow);
   }
 
   .btn-amber:hover {
-    background-color: #ea580c;
+    background-color: var(--yellow-deep);
+    color: white;
+  }
+
+  .btn-yellow {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-ink transition-colors;
+    background-color: var(--yellow);
+  }
+
+  .btn-yellow:hover {
+    background-color: var(--yellow-deep);
+    color: #fff;
   }
 
   .btn-sm {
@@ -168,9 +186,9 @@ h1, h2, h3 {
     inset: 0;
     background-image: url("/assets/herobg2.png");
     background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: min(100%, 1200px) auto;
-    opacity: 0.62;
+    background-position: center bottom;
+    background-size: cover;
+    opacity: 0.88;
     pointer-events: none;
   }
 
@@ -180,15 +198,26 @@ h1, h2, h3 {
     inset: 0;
     background: linear-gradient(
       105deg,
-      rgba(253, 248, 242, 0.94) 0%,
-      rgba(253, 248, 242, 0.82) 45%,
-      rgba(255, 240, 214, 0.55) 100%
+      rgba(255, 251, 245, 0.78) 0%,
+      rgba(255, 251, 245, 0.55) 42%,
+      rgba(255, 248, 214, 0.28) 100%
     );
     pointer-events: none;
   }
 
   .hero-home__content {
     @apply relative z-10;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .about-home {
@@ -213,9 +242,9 @@ h1, h2, h3 {
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(253, 248, 242, 0.92) 0%,
-      rgba(253, 248, 242, 0.82) 55%,
-      rgba(253, 248, 242, 0.68) 100%
+      rgba(255, 251, 245, 0.94) 0%,
+      rgba(255, 251, 245, 0.86) 55%,
+      rgba(255, 248, 214, 0.72) 100%
     );
     pointer-events: none;
   }

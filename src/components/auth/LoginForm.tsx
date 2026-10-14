@@ -64,7 +64,7 @@ export default function LoginForm({ portal, title, subtitle, demoAccounts }: Log
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
           <div className="mb-4 flex justify-center">
-            <Logo href="/" imageClassName="w-[140px]" />
+            <Logo href="/" imageClassName="h-[160px] w-auto max-w-[160px]" />
           </div>
           <h1 className="font-display text-lg font-semibold text-ink">{title}</h1>
           <p className="mt-1 text-sm text-ink-muted">{subtitle}</p>

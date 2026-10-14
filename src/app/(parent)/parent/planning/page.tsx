@@ -1,44 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ParentPageHeader } from "@/components/parent/ParentPageHeader";
-import { children, days, planning, type Child } from "@/lib/parent-data";
+import { days, planning } from "@/lib/parent-data";
 import { useParentSession } from "@/hooks/useParentSession";
+import { useParentChildren } from "@/hooks/useParentChildren";
 
 export default function ParentPlanningPage() {
   const { user } = useParentSession();
-  const [activeChild, setActiveChild] = useState<Child>(children[0]);
+  const { children, loading } = useParentChildren();
+  const [activeChildId, setActiveChildId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!activeChildId && children.length > 0) setActiveChildId(children[0].id);
+  }, [activeChildId, children]);
+
+  const activeChild = children.find((c) => c.id === activeChildId) ?? children[0];
 
   return (
     <div>
       <ParentPageHeader
         user={user}
         title="Planning hebdomadaire"
-        subtitle="Créneaux selon la formule souscrite — pas de sieste sur site"
+        subtitle="Créneaux selon la formule mensuelle souscrite"
       />
+
+      {loading && <p className="text-sm text-ink-muted">Chargement du planning…</p>}
+      {!loading && children.length === 0 && (
+        <p className="text-sm text-ink-muted">
+          Aucun enfant rattaché à ce compte — le planning s&apos;affichera dès la validation
+          d&apos;un dossier.
+        </p>
+      )}
 
       <div className="flex flex-wrap gap-2 mb-5">
         {children.map((c) => (
           <button
             key={c.id}
             type="button"
-            onClick={() => setActiveChild(c)}
+            onClick={() => setActiveChildId(c.id)}
             className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-              activeChild.id === c.id
+              activeChild?.id === c.id
                 ? "border-brand-forest bg-brand-forest text-white"
                 : "border-line bg-white text-ink-muted hover:border-brand-forest"
             }`}
           >
-            {c.name.split(" ")[0]}
+            {c.name.split(" ").slice(-1)[0]}
           </button>
         ))}
       </div>
 
-      <div className="card mb-4 p-4">
-        <p className="text-sm font-semibold text-ink">{activeChild.name}</p>
-        <p className="mt-0.5 text-xs text-ink-muted">{activeChild.package}</p>
-        <p className="mt-2 text-xs font-medium text-brand-forest">Semaine du 26 au 30 mai</p>
-      </div>
+      {activeChild && (
+        <div className="card mb-4 p-4">
+          <p className="text-sm font-semibold text-ink">{activeChild.name}</p>
+          <p className="mt-0.5 text-xs text-ink-muted">{activeChild.package}</p>
+          <p className="mt-2 text-xs font-medium text-brand-forest">Semaine du 26 au 30 mai</p>
+        </div>
+      )}
 
       <div className="card overflow-x-auto">
         <div

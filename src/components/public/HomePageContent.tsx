@@ -1,63 +1,56 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
 import clsx from "clsx";
-import { Compass, Languages, MonitorSmartphone, ShieldCheck } from "lucide-react";
 import Logo from "@/components/brand/Logo";
-import { ESTABLISHMENT } from "@/lib/constants";
-import { useLocale } from "@/lib/i18n/locale-context";
 import ServicesCarousel from "@/components/public/ServicesCarousel";
 import HomeContactForm, { HomeContactInfo } from "@/components/public/HomeContactForm";
-
-const commitmentIcons = [Compass, ShieldCheck, MonitorSmartphone, Languages];
+import { useLocale } from "@/lib/i18n/locale-context";
+import { getHomeLanding } from "@/lib/home-landing";
 
 export default function HomePageContent() {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
+  const L = getHomeLanding(locale);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const testimonial = L.testimonials[testimonialIndex];
 
   return (
     <div>
-      <section className="hero-home border-b border-line">
+      {/* Hero — brand mark + claim; background sized to this block */}
+      <section className="hero-home">
         <div className="site-wrap hero-home__content py-12 sm:py-16 lg:py-20">
-          <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:gap-10 lg:gap-16">
-            <div className="flex w-full shrink-0 justify-center sm:w-auto sm:mt-6 sm:justify-start lg:mt-8">
+          <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:gap-10 lg:gap-14">
+            <div className="animate-[fadeUp_0.55s_ease-out] shrink-0">
               <Logo
                 href={false}
                 priority
-                imageClassName="h-[120px] w-auto max-w-[168px] object-contain sm:h-[148px] sm:max-w-[200px] lg:h-[176px] lg:max-w-[236px]"
+                imageClassName="h-[140px] w-auto max-w-[140px] object-contain sm:h-[180px] sm:max-w-[180px] lg:h-[220px] lg:max-w-[220px]"
               />
             </div>
-            <div className="max-w-2xl">
-              <span className="mb-4 inline-flex items-center rounded-full bg-brand-light px-3 py-1 text-xs font-medium text-brand-deep">
-                {t.home.badge}
-              </span>
-              <h1 className="mb-5 font-display text-[2rem] font-bold leading-tight text-ink sm:text-[2.75rem] lg:text-4xl">
-                {t.home.titleBefore}
-                <span className="text-brand-forest">{t.home.titleHighlight}</span>
-                {t.home.titleAfter}
+            <div className="max-w-xl animate-[fadeUp_0.55s_ease-out]">
+              <h1 className="font-display text-[2.55rem] font-bold leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
+                {L.heroLine1}
+                <br />
+                <span className="text-teal">{L.heroLine2}</span>
               </h1>
-              <p className="mb-8 max-w-lg text-base leading-relaxed text-ink-muted">
-                {t.home.description.replace("{name}", ESTABLISHMENT.name)}
+              <p className="mt-5 max-w-md text-base leading-relaxed text-ink sm:text-lg">
+                {L.heroSubtitle}
               </p>
-              <div className="flex flex-wrap gap-3">
-                <a href="#services" className="btn-primary">
-                  {t.home.discoverServices}
-                </a>
-                <a href="#contact" className="btn-secondary">
-                  {t.home.contactUs}
-                </a>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services" className="scroll-mt-20 border-b border-line bg-surface-2">
-        <div className="site-wrap py-12 sm:py-14">
-          <div className="mb-8 max-w-2xl">
-            <p className="section-label">{t.home.servicesLabel}</p>
-            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
-              {t.home.servicesTitle}
+      {/* Prestations SSL — before the needs wizard */}
+      <section id="services" className="scroll-mt-20 border-b border-line bg-white">
+        <div className="site-wrap py-12 sm:py-16">
+          <div className="mb-10 max-w-3xl">
+            <p className="section-label">{t.home.voletsLabel}</p>
+            <h2 className="font-display text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[2.75rem]">
+              {t.home.voletsTitle}
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
+            <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
               {t.home.servicesDescription}
             </p>
           </div>
@@ -65,77 +58,99 @@ export default function HomePageContent() {
         </div>
       </section>
 
-      <section id="about" className="about-home scroll-mt-20">
-        <div className="site-wrap about-home__content py-12 sm:py-16 lg:py-20">
+      {/* Why choose */}
+      <section className="border-b border-line bg-surface-2">
+        <div className="site-wrap grid gap-10 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-14">
+          <div>
+            <p className="section-label">{t.home.commitmentLabel}</p>
+            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">{L.whyTitle}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">{L.whyLead}</p>
+            <ul className="mt-6 space-y-3">
+              {L.whyItems.map((item) => (
+                <li key={item} className="flex gap-3 text-sm text-ink">
+                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-yellow" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link href="/#services" className="btn-primary mt-8 inline-flex">
+              {L.whyCta}
+            </Link>
+          </div>
+          <div className="rounded-2xl border border-yellow/40 bg-yellow-light p-6 sm:p-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-yellow-deep">SSL+++</p>
+            <p className="mt-3 font-display text-xl font-bold leading-snug text-ink sm:text-2xl">
+              {t.home.commitmentTitle}
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted">{t.home.commitmentLead}</p>
+            <Link href="/rejoindre" className="mt-5 inline-block text-sm font-bold text-brand-forest hover:underline">
+              {L.workWithUs}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="about-home scroll-mt-20">
+        <div className="site-wrap about-home__content py-14 sm:py-16">
           <div className="max-w-3xl">
             <p className="section-label">{t.home.aboutLabel}</p>
-            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl lg:text-4xl">
-              {t.home.aboutTitle}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
-              {t.home.aboutLead.replace("{name}", ESTABLISHMENT.name)}
-            </p>
+            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">{L.howTitle}</h2>
+            <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">{L.howLead}</p>
+            <Link href="/notre-fonctionnement" className="btn-secondary mt-6 inline-flex">
+              {L.howCta}
+            </Link>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-3 sm:gap-6">
-            {t.home.aboutPillars.map(([title, desc]) => (
-              <div
-                key={title}
-                className="rounded-xl border border-line bg-white/90 p-5 shadow-card backdrop-blur-sm sm:p-6"
-              >
-                <p className="mb-2 text-sm font-bold text-brand-forest">{title}</p>
-                <p className="text-sm leading-relaxed text-ink-muted">{desc}</p>
-              </div>
+      {/* Testimonials */}
+      <section className="border-b border-line bg-brand-deep py-14 text-white">
+        <div className="site-wrap">
+          <h2 className="font-display text-2xl font-bold sm:text-3xl">{L.testimonialsTitle}</h2>
+          <blockquote className="mx-auto mt-8 max-w-3xl">
+            <p className="font-display text-lg leading-relaxed text-white/95 sm:text-xl">
+              &ldquo;{testimonial.quote}&rdquo;
+            </p>
+            <footer className="mt-5">
+              <p className="text-sm font-bold">{testimonial.author}</p>
+              <p className="text-sm text-white/65">{testimonial.meta}</p>
+            </footer>
+          </blockquote>
+          <div className="mt-8 flex gap-2">
+            {L.testimonials.map((item, i) => (
+              <button
+                key={item.author}
+                type="button"
+                aria-label={`Témoignage ${i + 1}`}
+                onClick={() => setTestimonialIndex(i)}
+                className={clsx(
+                  "h-2.5 w-2.5 rounded-full transition-colors",
+                  i === testimonialIndex ? "bg-yellow" : "bg-white/35 hover:bg-white/60"
+                )}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-b border-line bg-white">
-        <div className="site-wrap py-12 sm:py-14">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="section-label">{t.home.commitmentLabel}</p>
-            <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
-              {t.home.commitmentTitle}
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
-              {t.home.commitmentLead}
-            </p>
+      {/* Careers CTA */}
+      <section className="border-b border-line bg-yellow-light">
+        <div className="site-wrap flex flex-col items-start justify-between gap-6 py-12 sm:flex-row sm:items-center">
+          <div>
+            <h2 className="font-display text-2xl font-bold text-ink">{L.careersTitle}</h2>
+            <p className="mt-2 max-w-lg text-sm text-ink-muted">{L.careersLead}</p>
           </div>
-
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            {t.home.commitmentItems.map(([title, desc], i) => {
-              const Icon = commitmentIcons[i] ?? Compass;
-              return (
-                <div
-                  key={title}
-                  className={clsx(
-                    "rounded-xl border p-5 sm:p-6",
-                    i === 0
-                      ? "border-brand-forest/25 bg-brand-light/60"
-                      : "border-line bg-surface-2"
-                  )}
-                >
-                  <span
-                    className={clsx(
-                      "mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl",
-                      i === 0 ? "bg-brand-forest text-white" : "bg-white text-brand-forest shadow-card"
-                    )}
-                  >
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </span>
-                  <h3 className="text-sm font-bold text-ink">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">{desc}</p>
-                </div>
-              );
-            })}
-          </div>
+          <Link href="/rejoindre" className="btn-primary shrink-0">
+            {L.careersCta}
+          </Link>
         </div>
       </section>
 
+      {/* Contact */}
       <section id="contact" className="scroll-mt-20 bg-surface-green">
         <div className="site-wrap py-12 sm:py-14">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start lg:gap-14">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12">
             <div>
               <p className="section-label">{t.home.contactLabel}</p>
               <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">

@@ -5,7 +5,7 @@ const serviceItemsFr = {
     title: "Accompagnement scolaire",
     subtitle: "Garde & éducation · 6–18 ans",
     description:
-      "Garderie, sorties d'école, soutien scolaire et suivi parental dans un cadre sécurisé, trilingue et adapté à votre rythme familial.",
+      "Garderie, sorties d'école, soutien scolaire et suivi parental dans un cadre sécurisé et adapté à votre rythme familial.",
   },
   "services-domicile": {
     title: "Services à domicile",
@@ -193,7 +193,6 @@ export const messages: Record<Locale, Messages> = {
         message: "Message",
         messagePlaceholder: "Décrivez votre besoin ou votre question…",
         submit: "Envoyer le message",
-        mockNote: "Démonstration — aucun envoi réel pour le moment.",
         successTitle: "Message enregistré",
         successMessage:
           "Merci pour votre message. Notre équipe vous recontactera sous 48 h ouvrées (simulation).",
@@ -310,7 +309,6 @@ export const messages: Record<Locale, Messages> = {
         message: "الرسالة",
         messagePlaceholder: "صفّ حاجتك أو سؤالك…",
         submit: "إرسال الرسالة",
-        mockNote: "عرض توضيحي — لا يتم إرسال حقيقي حالياً.",
         successTitle: "تم تسجيل الرسالة",
         successMessage:
           "شكراً لرسالتك. سيتواصل معك فريقنا خلال 48 ساعة عمل (محاكاة).",
@@ -427,7 +425,6 @@ export const messages: Record<Locale, Messages> = {
         message: "Message",
         messagePlaceholder: "Describe your need or question…",
         submit: "Send message",
-        mockNote: "Demo only — no real submission yet.",
         successTitle: "Message recorded",
         successMessage:
           "Thank you for your message. Our team will get back to you within 48 business hours (simulation).",

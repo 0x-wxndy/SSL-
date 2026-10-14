@@ -22,7 +22,7 @@ export default function HomePageContent() {
               <Logo
                 href={false}
                 priority
-                imageClassName="h-[120px] w-auto max-w-[168px] object-contain sm:h-[148px] sm:max-w-[200px] lg:h-[176px] lg:max-w-[236px]"
+                imageClassName="h-[120px] w-auto max-w-[120px] object-contain sm:h-[148px] sm:max-w-[148px] lg:h-[176px] lg:max-w-[176px]"
               />
             </div>
             <div className="max-w-2xl">

@@ -18,8 +18,6 @@ export const STOCK_IMAGES = {
 
 export const SERVICE_CAROUSEL_IMAGES: Record<string, string> = {
   "accompagnement-scolaire": STOCK_IMAGES.schooling,
-  "services-domicile": STOCK_IMAGES.homeCare,
-  "accompagnement-seniors": STOCK_IMAGES.elderlyCare,
+  "aide-sociale-domicile": STOCK_IMAGES.homeCare,
   "activites-alzheimer": STOCK_IMAGES.alzheimer,
-  "aide-familiale": STOCK_IMAGES.family,
 };
