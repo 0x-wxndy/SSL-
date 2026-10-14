@@ -83,9 +83,6 @@ export default function HomePageContent() {
               {t.home.commitmentTitle}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-ink-muted">{t.home.commitmentLead}</p>
-            <Link href="/rejoindre" className="mt-5 inline-block text-sm font-bold text-brand-forest hover:underline">
-              {L.workWithUs}
-            </Link>
           </div>
         </div>
       </section>
@@ -97,9 +94,6 @@ export default function HomePageContent() {
             <p className="section-label">{t.home.aboutLabel}</p>
             <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">{L.howTitle}</h2>
             <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">{L.howLead}</p>
-            <Link href="/notre-fonctionnement" className="btn-secondary mt-6 inline-flex">
-              {L.howCta}
-            </Link>
           </div>
         </div>
       </section>
@@ -131,19 +125,6 @@ export default function HomePageContent() {
               />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Careers CTA */}
-      <section className="border-b border-line bg-yellow-light">
-        <div className="site-wrap flex flex-col items-start justify-between gap-6 py-12 sm:flex-row sm:items-center">
-          <div>
-            <h2 className="font-display text-2xl font-bold text-ink">{L.careersTitle}</h2>
-            <p className="mt-2 max-w-lg text-sm text-ink-muted">{L.careersLead}</p>
-          </div>
-          <Link href="/rejoindre" className="btn-primary shrink-0">
-            {L.careersCta}
-          </Link>
         </div>
       </section>
 
