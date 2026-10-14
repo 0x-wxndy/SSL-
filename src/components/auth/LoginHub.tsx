@@ -67,6 +67,10 @@ const PORTALS: PortalConfig[] = [
   },
 ];
 
+function isPortalKey(value: string): value is PortalKey {
+  return PORTALS.some((item) => item.key === value);
+}
+
 function parsePortalKey(value: string | null, allowed: PortalKey[]): PortalKey {
   if (value === "provider") return allowed.includes("user") ? "user" : allowed[0];
   if (value === "user" || value === "parent" || value === "admin" || value === "alzheimer") {
@@ -92,7 +96,7 @@ export default function LoginHub({ portals }: LoginHubProps) {
         ? [requestedRole]
         : ["user", "parent"];
     const base = portals ?? locked;
-    return base.filter((key) => PORTALS.some((item) => item.key === key));
+    return base.filter(isPortalKey);
   }, [portals, requestedRole]);
   const initialKey = parsePortalKey(searchParams.get("role"), available);
   const [portalKey, setPortalKey] = useState<PortalKey>(initialKey);
