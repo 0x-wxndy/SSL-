@@ -1,6 +1,8 @@
 import { Suspense } from "react";
+import { cookies } from "next/headers";
 import AdminShell from "@/components/layout/AdminShell";
-import AdminDashboard from "@/components/admin/AdminDashboard";
+import { parseSession, SESSION_COOKIE } from "@/lib/auth";
+import { withParentAccess } from "@/lib/parent-access";
 
 function AdminLoading() {
   return (
@@ -11,9 +13,12 @@ function AdminLoading() {
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const session = parseSession(cookies().get(SESSION_COOKIE)?.value);
+  const user = session ? withParentAccess(session) : null;
+
   return (
     <Suspense fallback={<AdminLoading />}>
-      <AdminShell>{children}</AdminShell>
+      <AdminShell initialUser={user}>{children}</AdminShell>
     </Suspense>
   );
 }
