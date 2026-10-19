@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 import { cookies } from "next/headers";
 import AdminShell from "@/components/layout/AdminShell";
 import { parseSession, SESSION_COOKIE } from "@/lib/auth";

@@ -58,11 +58,23 @@ export default function AdminShell({
   const [user, setUser] = useState<Session | null>(initialUser);
 
   useEffect(() => {
+    setUser(initialUser);
+  }, [initialUser]);
+
+  useEffect(() => {
+    let cancelled = false;
     fetch("/api/auth/me")
       .then((r) => (r.ok ? r.json() : null))
-      .then((data) => setUser(data?.user ?? null))
-      .catch(() => setUser(null));
-  }, []);
+      .then((data) => {
+        if (!cancelled) setUser(data?.user ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]);
 
   const allowedModules = user ? getModulesForRole(user) : [];
   const grouped = GROUP_ORDER.map((group) => ({
@@ -72,6 +84,7 @@ export default function AdminShell({
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
     router.push("/admin/connexion");
     router.refresh();
   }
