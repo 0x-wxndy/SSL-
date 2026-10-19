@@ -56,7 +56,7 @@ const fr: HomeLandingCopy = {
   jobBanner: "À la recherche d'un emploi ? Cliquez ici !",
   mySpace: "Mon espace",
   contactCta: "Nous contacter",
-  workWithUs: "Nous rejoindre",
+  workWithUs: "Espace carrière",
   heroLine1: "SERVICE SOLUTION",
   heroLine2: "LIFE",
   heroSubtitle:
